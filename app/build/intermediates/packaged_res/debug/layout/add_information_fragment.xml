@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:padding="16dp"
+        android:background="@drawable/background_start_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/name_stuff"
+            android:textColor="@color/white"
+            android:text="Книжка малышка для детей и взрослых очень длинная не знаю что еще написать"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:maxLines="1"/>
+        <TextView
+            android:layout_marginTop="4dp"
+            android:id="@+id/name_article"
+            android:textColor="@color/white"
+            android:text="Артикул товара: 12457896"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:maxLines="1"/>
+        <TextView
+            android:layout_marginTop="4dp"
+            android:id="@+id/name_shk"
+            android:textColor="@color/white"
+            android:text="ШК товара: 5689741235647"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Вложенность"/>
+    <EditText
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/vlozhennost_et"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пример: 1"/>
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Место"/>
+    <EditText
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/mesto_et"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пример: 6"/>
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Номер палета"/>
+    <EditText
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/palet_et"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пример: 4"/>
+
+
+    <FrameLayout
+        android:id="@+id/not_standrt_btn"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_add_not_standart"
+        android:paddingRight="12dp"
+        android:paddingLeft="8dp"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/plus"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Добавить вложенность"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:visibility="gone"
+        android:id="@+id/nestandart_vlozh_liner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Вложенность"/>
+        <EditText
+            android:id="@+id/vlozhennost_dop_et"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пример: 1"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Место"/>
+        <EditText
+            android:id="@+id/mesto_dop_et"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пример: 6"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Номер палета"/>
+        <EditText
+            android:id="@+id/palet_dop_et"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пример: 4"/>
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/red_btn"
+            android:layout_marginTop="24dp"
+            android:id="@+id/btn"
+            android:layout_gravity="bottom"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:textSize="14dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Добавить"
+            android:layout_height="48dp"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/red_btn"
+        android:layout_marginTop="24dp"
+        android:id="@+id/btn_done"
+        android:layout_gravity="bottom"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:textSize="14dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Записать"
+        android:layout_height="48dp"/>
+
+</LinearLayout>
+</ScrollView>
