@@ -17,30 +17,23 @@ import com.example.timetrekerforandroid.databinding.TasksFragmentBinding
 import com.example.timetrekerforandroid.network.response.ArticlesResponse
 import com.example.timetrekerforandroid.presenter.TasksPresenter
 import com.example.timetrekerforandroid.util.SPHelper
+import com.example.timetrekerforandroid.util.ScannerManager
+import com.example.timetrekerforandroid.util.ScannerManager.ScannerDataListener
+import com.example.timetrekerforandroid.util.ScannerManager.ScannerStatusListener
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.TasksView
-import com.symbol.emdk.EMDKManager
-import com.symbol.emdk.EMDKResults
-import com.symbol.emdk.barcode.BarcodeManager
-import com.symbol.emdk.barcode.ScanDataCollection
-import com.symbol.emdk.barcode.Scanner
-import com.symbol.emdk.barcode.ScannerException
-import com.symbol.emdk.barcode.ScannerResults
-import com.symbol.emdk.barcode.StatusData
 import java.util.Locale
+
 class TasksFragment(private val name: String) : Fragment(), TasksView, ArtikulTasksAdapter.OnClickItem,
-    EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
+    ScannerDataListener, ScannerStatusListener {
 
     var _binding: TasksFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var presenter: TasksPresenter
     private var adapter: ArtikulTasksAdapter? = null
-    private var emdkManager: EMDKManager? = null
-    private var barcodeManager: BarcodeManager? = null
-    private var scanner: Scanner? = null
+    private var scannerManager: ScannerManager? = null
     private var originalData: List<ArticlesResponse.Articuls>? = null
     private lateinit var mWaitDialog: WaitDialog
-
     private fun showDialog() {
         mWaitDialog = WaitDialog.newInstance()
         mWaitDialog.isCancelable = false
@@ -55,33 +48,14 @@ class TasksFragment(private val name: String) : Fragment(), TasksView, ArtikulTa
 
 
 
-    override fun onResume() {
-        super.onResume()
-            if(emdkManager!=null && scanner != null) {
-                Log.d("TRUE", "KDKDKDKKDKD")
-                try {
-                    scanner!!.read()
-                } catch (e: ScannerException) {
-                    Log.d("EEEE", e.localizedMessage)
-                }
-            }
-            presenter = TasksPresenter(this)
-            showDialog()
-            presenter.getArtikules(name)
-    }
-    override fun onOpened(manager: EMDKManager?) {
-        emdkManager = manager
-        barcodeManager = emdkManager?.getInstance(EMDKManager.FEATURE_TYPE.BARCODE) as BarcodeManager
-        initializeScanner()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val emdkResults = EMDKManager.getEMDKManager(requireActivity().applicationContext, this)
-        if (emdkResults.statusCode != EMDKResults.STATUS_CODE.SUCCESS) {
-            Toast.makeText(context, "Error initializing EMDK", Toast.LENGTH_SHORT).show()
-        }
+        scannerManager = ScannerManager.getInstance(requireActivity().applicationContext)
+        scannerManager.setScannerDataListener(this)
+        scannerManager.setScannerStatusListener(this)
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = TasksFragmentBinding.inflate(inflater, container, false)
@@ -163,105 +137,34 @@ class TasksFragment(private val name: String) : Fragment(), TasksView, ArtikulTa
         startActivity(intent)
     }
 
-
-
-    private fun initializeScanner() {
-        if (scanner == null) {
-            scanner = barcodeManager?.getDevice(BarcodeManager.DeviceIdentifier.DEFAULT)
-            scanner?.apply {
-                addDataListener(this@TasksFragment)
-                addStatusListener(this@TasksFragment)
-                triggerType = Scanner.TriggerType.HARD
-                try {
-                    enable()
-                } catch (e: ScannerException) {
-                    Toast.makeText(context, "Error enabling scanner", Toast.LENGTH_SHORT).show()
-                }
+    override fun onDataReceived(barcodeData: String?, barcodeType: String?) {
+        requireActivity().runOnUiThread {
+            showDialog()
+            if (barcodeData != null) {
+                filterOnSHK(barcodeData)
             }
         }
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        releaseScanner()
-        if (emdkManager != null) {
-            emdkManager!!.release()
-            emdkManager = null
+    override fun onScanFailed(errorMessage: String?) {
+        requireActivity().runOnUiThread {
+            Toast.makeText(
+                context,
+                errorMessage,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        releaseScanner()
-        if (emdkManager != null) {
-            emdkManager!!.release()
-            emdkManager = null
+    override fun onStatusChanged(statusMessage: String?) {
+        requireActivity().runOnUiThread {
+            Toast.makeText(
+                context,
+                statusMessage,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-//        if (scanner != null) {
-//           try{
-//               scanner!!.cancelRead()
-//           } catch (e: ScannerException){
-//               Log.e("EXEPTION", e.localizedMessage)
-//           }
-//        }
-        releaseScanner()
-        if (emdkManager != null) {
-            emdkManager!!.release()
-            emdkManager = null
-        }
-    }
-    private fun releaseScanner() {
-        try {
-            scanner?.apply {
-                disable()
-                removeDataListener(this@TasksFragment)
-                removeStatusListener(this@TasksFragment)
-            }
-        } catch (e: ScannerException) {
-            Toast.makeText(context, "Error disabling scanner", Toast.LENGTH_SHORT).show()
-        }
-        scanner = null
-    }
-
-    override fun onData(scanDataCollection: ScanDataCollection?) {
-        scanDataCollection?.let {
-            if (it.result == ScannerResults.SUCCESS) {
-                for (data in it.scanData) {
-                    val barcodeData = data.data
-                    requireActivity().runOnUiThread {
-                        filterOnSHK(barcodeData)
-                        Log.d("BARCODE", barcodeData)
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onStatus(statusData: StatusData?) {
-        statusData?.let {
-            when (it.state) {
-                StatusData.ScannerStates.IDLE -> try {
-                    scanner?.read()
-                } catch (e: ScannerException) {
-                    Toast.makeText(context, "Error starting scan", Toast.LENGTH_SHORT).show()
-                }
-                StatusData.ScannerStates.WAITING, StatusData.ScannerStates.SCANNING, StatusData.ScannerStates.DISABLED -> {}
-                StatusData.ScannerStates.ERROR -> Toast.makeText(context, "Scanner error occurred", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    override fun onClosed() {
-        releaseScanner()
-        if (emdkManager != null) {
-            emdkManager!!.release()
-            emdkManager = null
-        }
-    }
 
 }

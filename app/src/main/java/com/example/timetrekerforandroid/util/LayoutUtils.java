@@ -1,4 +1,4 @@
-package com.example.timetrekerforandroid.presenter;
+package com.example.timetrekerforandroid.util;
 
 import android.view.ViewGroup;
 

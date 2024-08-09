@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.timetrekerforandroid.ApplicationLoader;
 import com.example.timetrekerforandroid.R;
-import com.example.timetrekerforandroid.presenter.LayoutUtils;
 
 public class WaitDialog extends DialogFragment {
 

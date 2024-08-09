@@ -17,6 +17,7 @@ import com.example.timetrekerforandroid.dialog.ApproveSrokGodnostiDialog
 import com.example.timetrekerforandroid.network.response.ArticlesResponse
 import com.example.timetrekerforandroid.presenter.InfoArticlePresenter
 import com.example.timetrekerforandroid.util.SPHelper
+import com.example.timetrekerforandroid.util.ScannerManager
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.InfoArticleView
 import com.symbol.emdk.EMDKManager
@@ -35,19 +36,16 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
-
-class InfoArticleFragment(private var name: String, private var article: String,
-                          private var fullSize: String, private var syryo: Boolean, private var articul_syrya: String,
-                          private var kolvo_syrya: String): Fragment(), InfoArticleView, ApproveShkDialog.OnSendNewShk,
-    EMDKListener, Scanner.DataListener, Scanner.StatusListener, ApproveSrokGodnostiDialog.OnSendApproveOnSrokGodnosti {
+class InfoArticleFragment(private var name: String, private var article: String, private var fullSize: String, private var syryo: Boolean, private var articul_syrya: String, private var kolvo_syrya: String
+) : Fragment(), InfoArticleView, ApproveShkDialog.OnSendNewShk,
+    ScannerManager.ScannerDataListener, ScannerManager.ScannerStatusListener,
+    ApproveSrokGodnostiDialog.OnSendApproveOnSrokGodnosti {
 
     private var _binding: InfoArticleFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var presenter: InfoArticlePresenter
-    private var emdkManager: EMDKManager? = null
-    private var barcodeManager: BarcodeManager? = null
-    private var scanner: Scanner? = null
     private lateinit var mWaitDialog: WaitDialog
+    private lateinit var scannerManager: ScannerManager
     private var persent: String = ""
     private var date: String = ""
 
@@ -65,10 +63,9 @@ class InfoArticleFragment(private var name: String, private var article: String,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val emdkResults = EMDKManager.getEMDKManager(requireActivity().applicationContext, this)
-        if (emdkResults.statusCode != EMDKResults.STATUS_CODE.SUCCESS) {
-            Toast.makeText(context, "Error initializing EMDK", Toast.LENGTH_SHORT).show()
-        }
+        scannerManager = ScannerManager.getInstance(requireContext())
+        scannerManager.setScannerDataListener(this)
+        scannerManager.setScannerStatusListener(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -110,11 +107,11 @@ class InfoArticleFragment(private var name: String, private var article: String,
                     binding.first.text.isNotEmpty() && binding.second.text.isNotEmpty() -> {
                         firstAndLastDate(binding.first.text.toString(), binding.second.text.toString())
                     }
-                    binding.first.text.isNotEmpty() -> {
+                    binding.first.text.isNotEmpty() && binding.second.text.isEmpty() -> {
                         showDialog()
                         presenter.searchArticleInDbForSG(article)
                     }
-                    binding.second.text.isNotEmpty() -> {
+                    binding.first.text.isEmpty() && binding.second.text.isNotEmpty() -> {
                         lastDate()
                     }
                     else -> {
@@ -125,7 +122,6 @@ class InfoArticleFragment(private var name: String, private var article: String,
                 Toast.makeText(context, "Срок годности не требуется для этого товара", Toast.LENGTH_SHORT).show()
             }
         }
-
 
         if(syryo){
             binding.lineSyrya.visibility = View.VISIBLE
@@ -152,12 +148,10 @@ class InfoArticleFragment(private var name: String, private var article: String,
         date = second
         val currentDate = Date()
 
-
         val diffInMillis = secondDate!!.time - firstDate!!.time
         val diffDays = diffInMillis / (1000 * 60 * 60 * 24)
         val pastInMillis = currentDate.time - firstDate.time
         val pastInDays = pastInMillis / (1000 * 60 * 60 * 24)
-
 
         val itog = pastInDays.toDouble() / diffDays * 100
         return String.format("%.2f%%", itog)
@@ -182,7 +176,6 @@ class InfoArticleFragment(private var name: String, private var article: String,
     }
 
     override fun createNewShk(shk: String) {
-        Log.d(" NENNENENENE", "DJKDJKFJKL")
         val dialog = ApproveShkDialog.newInstance(shk, this)
         dialog.isCancelable = true
         requireActivity().supportFragmentManager.let { dialog.show(it, "lol") }
@@ -195,7 +188,7 @@ class InfoArticleFragment(private var name: String, private var article: String,
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getPersent(days: Int): String{
+    fun getPersent(days: Int): String {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val startDate = LocalDate.parse(binding.first.text.toString(), formatter)
         val currentDate = LocalDate.now()
@@ -220,114 +213,25 @@ class InfoArticleFragment(private var name: String, private var article: String,
         Toast.makeText(context, "Введите последнюю дату", Toast.LENGTH_SHORT).show()
     }
 
-
-    override fun onOpened(manager: EMDKManager?) {
-        emdkManager = manager
-        barcodeManager = emdkManager?.getInstance(EMDKManager.FEATURE_TYPE.BARCODE) as BarcodeManager
-        initializeScanner()
-    }
-
-    private fun initializeScanner() {
-        if (scanner == null) {
-            scanner = barcodeManager?.getDevice(BarcodeManager.DeviceIdentifier.DEFAULT)
-            scanner?.addDataListener(this)
-            scanner?.addStatusListener(this)
-            scanner?.triggerType = Scanner.TriggerType.HARD
-            try {
-                scanner?.enable()
-            } catch (e: ScannerException) {
-                Toast.makeText(context, "Сканер недоступен", Toast.LENGTH_SHORT).show()
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        scannerManager.startScanning()
     }
 
     override fun onPause() {
         super.onPause()
-        if(scanner!=null){
-            try{
-                scanner!!.cancelRead()
-            }catch (e: ScannerException){
-                Log.d("EEEE", e.localizedMessage)
-            }
-        }
+        scannerManager.stopScanning()
     }
 
-    override fun onClosed() {
-        releaseScanner()
-        emdkManager?.release()
-        emdkManager = null
-    }
-
-    private fun releaseScanner() {
-        try {
-            scanner?.disable()
-        } catch (e: ScannerException) {
-            Toast.makeText(context, "Сканер недоступен", Toast.LENGTH_SHORT).show()
-        }
-        scanner?.removeDataListener(this)
-        scanner?.removeStatusListener(this)
-    }
-
-    override fun onData(scanDataCollection: ScanDataCollection?) {
-        if (scanDataCollection != null && scanDataCollection.result == ScannerResults.SUCCESS) {
-            val scanDataList = scanDataCollection.scanData
-            for (data in scanDataList) {
-                val barcodeData = data.data
-                requireActivity().runOnUiThread {
-                    SPHelper.setShkWork(barcodeData)
-                    presenter.findInExcel(barcodeData, SPHelper.getNameTask())
-                    Log.d("BARCODE", barcodeData)
-                }
-            }
-        }
-    }
-
-
-    override fun onStatus(statusData: StatusData?) {
-        if (statusData != null) {
-            when (statusData.getState()) {
-                ScannerStates.IDLE -> try {
-                    scanner!!.read()
-                } catch (e: ScannerException) {
-                    Toast.makeText(context, "Сканер недоступен", Toast.LENGTH_SHORT).show()
-                }
-
-                ScannerStates.WAITING -> {}
-                ScannerStates.SCANNING -> {}
-                ScannerStates.DISABLED -> {}
-                ScannerStates.ERROR -> Toast.makeText(
-                    context,
-                    "Scanner error occurred",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
     override fun onDestroy() {
         super.onDestroy()
-        releaseScanner()
-        if (emdkManager != null) {
-            emdkManager!!.release()
-            emdkManager = null
-        }
+        scannerManager.releaseScanner()
     }
 
-    override fun onResume() {
-        super.onResume()
-        if(emdkManager!=null && scanner != null){
-            try {
-                scanner!!.read()
-            }catch (e: ScannerException){
-                Log.d("EEEE", e.localizedMessage)
-            }
-        } else initializeScanner()
-    }
     override fun sendApprove(approve: Boolean) {
-        if(approve){
-            Log.d("APPROVE", "TRUE")
+        if (approve) {
             presenter.sendSrokGodnosti(date, persent)
-        }  else {
-            Log.d("APPROVE", "FALSE")
+        } else {
             presenter.sendEndStatus()
         }
     }
@@ -355,5 +259,17 @@ class InfoArticleFragment(private var name: String, private var article: String,
         }
     }
 
+    override fun onDataReceived(barcodeData: String, barcodeType: String) {
+        SPHelper.setShkWork(barcodeData)
+        presenter.findInExcel(barcodeData, SPHelper.getNameTask())
+        Log.d("BARCODE", barcodeData)
+    }
 
+    override fun onScanFailed(errorMessage: String) {
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStatusChanged(statusMessage: String) {
+        Toast.makeText(context, statusMessage, Toast.LENGTH_SHORT).show()
+    }
 }
