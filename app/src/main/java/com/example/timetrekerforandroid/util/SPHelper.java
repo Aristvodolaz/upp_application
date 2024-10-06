@@ -18,6 +18,16 @@ public class SPHelper {
     public static final String PREFICS = "prefice";
     public static final String SROK_GODNOSTI = "sroke_godnosti";
     public static final String ITOG_ZAKAZA = "itog_zakaza";
+    public static final String SYRYO = "syryo";
+
+    public static final String ARTICULS_SYRYO = "articuls_syryo";
+    public static final String SIZE_SYRYO = "size_syryo";
+    public static final String NAME_TOAVARA = "name_tovara";
+    public static final String SIZE_TOVARA = "size_tovara";
+    public static final String SHK_PALLETA = "shk_palleta";
+
+    public static final String SKLAD = "sklad";
+
 
 
     private static SharedPreferences getPrefs(){
@@ -42,6 +52,14 @@ public class SPHelper {
         return getPrefs().getString(NAME_TASK, "");
     }
 
+    public static void setSklad(String name){
+        getEdit().putString(SKLAD, name).commit();
+    }
+
+    public static String getSklad(){
+        return getPrefs().getString(SKLAD, "");
+    }
+
     public static void setNameEmployer(String name){
         getEdit().putString(NAME_EMPLOYER, name).commit();
     }
@@ -59,6 +77,11 @@ public class SPHelper {
         getEdit().putString(SHK_WORK, shk).commit();
     }
     public static String getShkWork(){return  getPrefs().getString(SHK_WORK, "");}
+
+    public static void setShkPalleta(String shk){
+        getEdit().putString(SHK_PALLETA, shk).commit();
+    }
+    public static String getShkPalleta(){return  getPrefs().getString(SHK_PALLETA, "");}
 
     public static void setNameStuffWork(String name){getEdit().putString(NAME_STUFF_WORK, name).commit();}
     public static String getNameStuffWork(){return getPrefs().getString(NAME_STUFF_WORK, "");}
@@ -80,5 +103,22 @@ public class SPHelper {
 
     public static int getItogZakaza(){return  getPrefs().getInt(ITOG_ZAKAZA, 0);}
 
+    public static void setSyryo(boolean i){getEdit().putBoolean(SYRYO, i).commit();}
+    public static boolean getSyryo(){return  getPrefs().getBoolean(SYRYO, false);}
+
+
+    public static void setSizeSyryo(String mesto){
+        getEdit().putString(SIZE_SYRYO, mesto).commit();
+    }
+    public static String getSizeSyryo(){return  getPrefs().getString(SIZE_SYRYO, "");}
+
+    public static void setArticulsSyryo(String shk){getEdit().putString(ARTICULS_SYRYO, shk).commit();}
+    public static String getArticulsSyryo(){return  getPrefs().getString(ARTICULS_SYRYO, "");}
+    public static void setNameToavara(String shk){getEdit().putString(NAME_TOAVARA, shk).commit();}
+    public static String getNameToavara(){return  getPrefs().getString(NAME_TOAVARA, "");}
+
+    public static int getSizeTovara(){return  getPrefs().getInt(SIZE_TOVARA, 0);}
+
+    public static void setSizeTovara(int shk){getEdit().putInt(SIZE_TOVARA, shk).commit();}
 
 }

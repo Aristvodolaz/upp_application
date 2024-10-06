@@ -1,7 +1,8 @@
 package com.example.timetrekerforandroid.view
 
+import com.example.timetrekerforandroid.network.response.Data
+
 interface StartView {
-    fun getDataInWait(data: List<String>)
-    fun getDataInWork(data: List<String>)
+    fun getDataInWork(data: List<Data>)
     fun msg(msg: String)
 }

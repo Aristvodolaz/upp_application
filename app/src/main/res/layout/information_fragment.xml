@@ -1,0 +1,118 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linear"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/name"
+            android:text="Выберите тип упаковки"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <View
+        app:layout_constraintBottom_toBottomOf="@id/linear"
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#9d9d9d"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:padding="16dp"
+            android:background="@drawable/background_start_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/name_stuff"
+                android:textColor="@color/white"
+                android:text="Книжка малышка для детей и взрослых очень длинная не знаю что еще написать"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/name_article"
+                android:textColor="@color/white"
+                android:text="Артикул товара: 12457896"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/name_shk"
+                android:textColor="@color/white"
+                android:text="ШК товара: 5689741235647"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/size_syrya"
+                android:textColor="@color/white"
+                android:text="ШК товара: 5689741235647"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- Wrap these views inside a LinearLayout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    app:layout_constraintTop_toTopOf="@id/line"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/red_btn"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/btn_sk"
+                    android:layout_gravity="bottom"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:textSize="14dp"
+                    android:layout_marginBottom="50dp"
+                    android:text="Продолжить"
+                    android:layout_height="48dp"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

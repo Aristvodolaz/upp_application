@@ -5,21 +5,23 @@ import com.example.timetrekerforandroid.network.Const
 import com.example.timetrekerforandroid.network.request.DownloadExcelRequest
 import com.example.timetrekerforandroid.network.response.ArticlesResponse
 import com.example.timetrekerforandroid.network.response.AuthResponse
+import com.example.timetrekerforandroid.network.response.DBNameResponse
 import com.example.timetrekerforandroid.network.response.NameDBResponse
 import com.example.timetrekerforandroid.network.response.NameFilesInWaitResponse
 import com.example.timetrekerforandroid.network.response.UniversalResponse
+import com.example.timetrekerforandroid.util.SPHelper
 import rx.Observable
 
 class InformationModel: BaseDataProvider() {
-    fun getDataInWork(): Observable<NameDBResponse> {
-        return service.getDataInWork().compose(applySchedulers())
+    suspend fun getDataInWork(): DBNameResponse {
+        return service.getDataInWork(SPHelper.getSklad())
     }
     fun getDataInWait(): Observable<NameFilesInWaitResponse>{
         return service.getDataInWait(Const.HOST, Const.PORT, Const.USERNAME, Const.PASSWORD).compose(applySchedulers())
     }
 
-    fun getArtikules(name: String): Observable<ArticlesResponse>{
-        return  service.getTasksInWork(name).compose(applySchedulers())
+    fun getArtikules(name: String, status: Int): Observable<ArticlesResponse>{
+        return  service.getTasksInWork(name, status).compose(applySchedulers())
     }
 
     fun getAuthUser(id: String): Observable<AuthResponse>{

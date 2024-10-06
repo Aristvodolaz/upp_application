@@ -9,6 +9,10 @@ import com.example.timetrekerforandroid.network.response.UniversalResponse
 import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.util.TimeHelper.getTime
 import com.example.timetrekerforandroid.view.InfoArticleView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -16,6 +20,7 @@ import rx.schedulers.Schedulers
 class InfoArticlePresenter(private var view: InfoArticleView) {
     private var taskModel = TaskModel()
     private var model = ScanModel()
+    private val presenterScope = CoroutineScope(Dispatchers.Main)
 
     fun changeStatusTask(article: String, status: Int){
         taskModel.updateStatus(SPHelper.getNameTask(),article, status, SPHelper.getNameEmployer()).subscribe(object : Subscriber<UniversalResponse>(){
@@ -50,8 +55,8 @@ class InfoArticlePresenter(private var view: InfoArticleView) {
             }
 
             override fun onNext(response: ArticlesResponse) {
-                if(response.isSuccess && response.articuls!=null){
-                    setInSharedPref(response.articuls[0].shk, response.articuls[0].articul.toString(), response.articuls[0].nazvanieTovara)
+                if(response.isSuccess){
+                    setInSharedPref(response.articuls[0].shk, response.articuls[0].artikul.toString(), response.articuls[0].nazvanieTovara)
                     updateShk(shk)
                     SPHelper.setShkWork(shk)
                 } else {
@@ -73,7 +78,7 @@ class InfoArticlePresenter(private var view: InfoArticleView) {
 
             override fun onNext(response: ShkInDbResponse) {
                 if(response.isSuccess && response.value!=null){
-                    if(response.value[0].shk==null){
+                    if(response.value[0].shk==null || response.value[0].shk.equals("null")){
                       view.createNewShk(SPHelper.getShkWork())
                     } else {
                         SPHelper.setShkWork(response.value[0].shk)
@@ -142,10 +147,27 @@ class InfoArticlePresenter(private var view: InfoArticleView) {
 
             override fun onNext(response: UniversalResponse) {
                 if(response.isSuccess ){
-                    view.successWriteSG()
+                    if(SPHelper.getPrefics().equals("WB")) sendWBSrok(date)
+                    else view.successWriteSG()
                 } else view.errorWriteSg()
             }
         })
+    }
+
+    fun sendWBSrok(data: String) {
+        presenterScope.launch {
+            try {
+                // Выполнение в фоновом потоке
+                withContext(Dispatchers.IO) {
+                    taskModel.addSrokForWB(data)
+                }
+                view.successWriteSG()
+                // Здесь можно обработать успех, если нужно
+            } catch (e: Exception) {
+                // Обработка ошибок, если операция завершилась неудачей
+                Log.e("WpsViewModel", "Ошибка при отправке срока для WB: ${e.message}")
+            }
+        }
     }
 
     fun sendEndStatus(){
@@ -161,6 +183,28 @@ class InfoArticlePresenter(private var view: InfoArticleView) {
             }, { error ->
                 view.errorMessage("Ошибка соединения, проверьте подключение.")
             })
+    }
+
+    fun cancelTask(reason: String, comment: String) {
+        // Запуск корутины
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                // Вызов метода cancelTask в модели
+                val response = withContext(Dispatchers.IO) {
+                    taskModel.calncelTask(reason, comment) // Предполагается, что это suspend функция
+                }
+
+                // Обработка ответа
+                if (response.isSuccess) {
+                    view.successEndStatus()
+                } else {
+                    view.errorWriteSg()
+                }
+            } catch (e: Exception) {
+                // Обработка ошибок
+                view.errorMessage("Ошибка соединения: ${e.localizedMessage}")
+            }
+        }
     }
 
 }

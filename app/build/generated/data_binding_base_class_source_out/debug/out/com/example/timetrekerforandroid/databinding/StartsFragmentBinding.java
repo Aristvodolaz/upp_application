@@ -4,38 +4,52 @@ package com.example.timetrekerforandroid.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.timetrekerforandroid.R;
-import com.google.android.material.tabs.TabLayout;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
 
 public final class StartsFragmentBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final LinearLayout rootView;
+
+  @NonNull
+  public final AppCompatButton btn;
+
+  @NonNull
+  public final View line;
+
+  @NonNull
+  public final LinearLayout linear;
+
+  @NonNull
+  public final TextView name;
 
   @NonNull
   public final RecyclerView rv;
 
-  @NonNull
-  public final TabLayout tab;
-
-  private StartsFragmentBinding(@NonNull ConstraintLayout rootView, @NonNull RecyclerView rv,
-      @NonNull TabLayout tab) {
+  private StartsFragmentBinding(@NonNull LinearLayout rootView, @NonNull AppCompatButton btn,
+      @NonNull View line, @NonNull LinearLayout linear, @NonNull TextView name,
+      @NonNull RecyclerView rv) {
     this.rootView = rootView;
+    this.btn = btn;
+    this.line = line;
+    this.linear = linear;
+    this.name = name;
     this.rv = rv;
-    this.tab = tab;
   }
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -60,19 +74,37 @@ public final class StartsFragmentBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btn;
+      AppCompatButton btn = ViewBindings.findChildViewById(rootView, id);
+      if (btn == null) {
+        break missingId;
+      }
+
+      id = R.id.line;
+      View line = ViewBindings.findChildViewById(rootView, id);
+      if (line == null) {
+        break missingId;
+      }
+
+      id = R.id.linear;
+      LinearLayout linear = ViewBindings.findChildViewById(rootView, id);
+      if (linear == null) {
+        break missingId;
+      }
+
+      id = R.id.name;
+      TextView name = ViewBindings.findChildViewById(rootView, id);
+      if (name == null) {
+        break missingId;
+      }
+
       id = R.id.rv;
       RecyclerView rv = ViewBindings.findChildViewById(rootView, id);
       if (rv == null) {
         break missingId;
       }
 
-      id = R.id.tab;
-      TabLayout tab = ViewBindings.findChildViewById(rootView, id);
-      if (tab == null) {
-        break missingId;
-      }
-
-      return new StartsFragmentBinding((ConstraintLayout) rootView, rv, tab);
+      return new StartsFragmentBinding((LinearLayout) rootView, btn, line, linear, name, rv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

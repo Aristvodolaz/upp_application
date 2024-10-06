@@ -144,5 +144,12 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.google.android.gms:play-services-code-scanner:16.1.0'
     compileOnly 'com.symbol:emdk:9.1.1'
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.1"
 
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Верхняя часть с информацией -->
+        <LinearLayout
+            android:padding="16dp"
+            android:background="@drawable/background_start_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/name_stuff"
+                android:textColor="@color/white"
+                android:text="Книжка малышка для детей и взрослых очень длинная не знаю что еще написать"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"/>
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/name_article"
+                android:textColor="@color/white"
+                android:text="Артикул товара: 12457896"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/name_shk"
+                android:textColor="@color/white"
+                android:text="Количество товара: 5689741235647"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+        </LinearLayout>
+
+        <!-- RecyclerView -->
+        <LinearLayout
+            android:id="@+id/visable_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rv"/>
+
+            <!-- Кнопки -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/red_btn"
+                android:layout_marginTop="24dp"
+                android:id="@+id/btn_add"
+                android:layout_gravity="bottom"
+                android:textAllCaps="false"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:textSize="14dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Добавить короб"
+                android:layout_height="48dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/solid_btn"
+                android:layout_marginTop="12dp"
+                android:id="@+id/btn_done"
+                android:layout_gravity="bottom"
+                android:textAllCaps="false"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:textSize="14dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Закрыть задание"
+                android:layout_height="48dp"/>
+        </LinearLayout>
+
+        <!-- Скрытый элемент с инструкцией по сканированию -->
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scan_box"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic_scan"/>
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Для продолжения работы отсканируйте ШК короба."/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

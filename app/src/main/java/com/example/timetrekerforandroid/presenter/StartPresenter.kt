@@ -5,51 +5,36 @@ import com.example.timetrekerforandroid.network.response.NameDBResponse
 import com.example.timetrekerforandroid.network.response.NameFilesInWaitResponse
 import com.example.timetrekerforandroid.network.response.UniversalResponse
 import com.example.timetrekerforandroid.view.StartView
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class StartPresenter(private  var view: StartView) {
-    private var model = InformationModel()
+class StartPresenter(private var view: StartView) {
+    private val model = InformationModel()
 
-    fun getDataInWait() {
-        model.getDataInWait()
-            .subscribeOn(Schedulers.io()) // Выполняем запрос в фоновом потоке
-            .observeOn(AndroidSchedulers.mainThread()) // Обрабатываем результат на основном потоке
-            .subscribe({ response ->
-                view.getDataInWait(response.names)
-            }, { error ->
-                view.msg("Ошибка соединения, проверьте подключение.")
-            })
-    }
+    // Создаём CoroutineScope с основным потоком
+    private val presenterScope = CoroutineScope(Dispatchers.Main)
 
     fun getDataInWork() {
-        model.getDataInWork()
-            .subscribeOn(Schedulers.io()) // Выполняем запрос в фоновом потоке
-            .observeOn(AndroidSchedulers.mainThread()) // Обрабатываем результат на основном потоке
-            .subscribe({ response ->
-                if (response.isSuccess) {
+        // Запускаем корутину в основном потоке
+        presenterScope.launch {
+            try {
+                // Выполняем запрос в фоновом потоке (Dispatchers.IO)
+                val response = withContext(Dispatchers.IO) {
+                    model.getDataInWork()
+                }
+
+                // Обрабатываем результат на основном потоке
+                if (response.success) {
                     view.getDataInWork(response.value)
                 } else {
                     view.msg("Ошибка получения данных.")
                 }
-            }, { error ->
+            } catch (e: Exception) {
+                // Обработка ошибок
                 view.msg("Ошибка соединения, проверьте подключение.")
-            })
-    }
-
-    fun downloadExcel(name: String) {
-        model.downloadExcel(name)
-            .subscribeOn(Schedulers.io()) // Выполняем запрос в фоновом потоке
-            .observeOn(AndroidSchedulers.mainThread()) // Обрабатываем результат на основном потоке
-            .subscribe({ response ->
-                if (response.isSuccess) {
-                    getDataInWork()
-                } else {
-                    view.msg("Ошибка получения данных.")
-                }
-            }, { error ->
-                view.msg("Ошибка соединения, проверьте подключение.")
-            })
+            }
+        }
     }
 }

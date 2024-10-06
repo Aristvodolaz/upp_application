@@ -5,32 +5,20 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.timetrekerforandroid.R;
 import com.example.timetrekerforandroid.activity.StartActivity;
 import com.example.timetrekerforandroid.presenter.AuthPresenter;
 import com.example.timetrekerforandroid.util.SPHelper;
-import com.example.timetrekerforandroid.util.ScannerManager;
+import com.example.timetrekerforandroid.util.ScannerController;
 import com.example.timetrekerforandroid.util.WaitDialog;
 import com.example.timetrekerforandroid.view.AuthView;
-import com.symbol.emdk.EMDKManager;
-import com.symbol.emdk.EMDKResults;
-import com.symbol.emdk.barcode.BarcodeManager;
-import com.symbol.emdk.barcode.ScanDataCollection;
-import com.symbol.emdk.barcode.Scanner;
-import com.symbol.emdk.barcode.ScannerException;
-import com.symbol.emdk.barcode.ScannerInfo;
-import com.symbol.emdk.barcode.ScannerResults;
-import com.symbol.emdk.barcode.StatusData;
 
-import java.util.List;
-
-public class AuthFragment extends BaseFragment implements AuthView, ScannerManager.ScannerDataListener, ScannerManager.ScannerStatusListener {
+public class AuthFragment extends BaseFragment implements AuthView, ScannerController.ScannerCallback {
 
     private AuthPresenter presenter;
     private WaitDialog mWaitDialog;
-    private ScannerManager scannerManager;
+    private ScannerController scannerController;
 
     public static AuthFragment newInstance() {
         return new AuthFragment();
@@ -40,6 +28,10 @@ public class AuthFragment extends BaseFragment implements AuthView, ScannerManag
     protected void initViews() {
         super.initViews();
         presenter = new AuthPresenter(this);
+        // Получите экземпляр сканера из активности
+        if (getActivity() instanceof StartActivity) {
+            scannerController = ((StartActivity) getActivity()).getScannerController();
+        }
     }
 
     private void showDialog() {
@@ -49,37 +41,13 @@ public class AuthFragment extends BaseFragment implements AuthView, ScannerManag
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        scannerManager = ScannerManager.getInstance(getActivity().getApplicationContext());
-        scannerManager.setScannerDataListener(this);
-        scannerManager.setScannerStatusListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        scannerManager.releaseScanner();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        scannerManager.startScanning();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        scannerManager.releaseScanner();
-    }
-
-    @Override
-    public void onDataReceived(String barcodeData, String barcodeType) {
+    public void onDataReceived(String barcodeData) {
         getActivity().runOnUiThread(() -> {
             showDialog();
-            presenter.getAuthUser(barcodeData.substring(1, barcodeData.length() - 1));
-            Toast.makeText(getContext(), "Scanned Data: " + barcodeData.substring(1, barcodeData.length() - 1), Toast.LENGTH_SHORT).show();
+            // Удаление внешних символов
+            String cleanedData = barcodeData.substring(1, barcodeData.length() - 1);
+            presenter.getAuthUser(cleanedData);
+            Toast.makeText(getContext(), "Scanned Data: " + cleanedData, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -91,10 +59,43 @@ public class AuthFragment extends BaseFragment implements AuthView, ScannerManag
     }
 
     @Override
-    public void onStatusChanged(String statusMessage) {
-        getActivity().runOnUiThread(() -> {
-            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-        });
+    public void onResume() {
+        super.onResume();
+        try {
+            if (scannerController != null) {
+                scannerController.resumeScanner();
+            }
+        } catch (Exception e) {
+            Log.e("AuthFragment", "Error resuming scanner", e);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (scannerController != null) {
+                scannerController.releaseScanner();
+            }
+        } catch (Exception e) {
+            Log.e("AuthFragment", "Error releasing scanner", e);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            if (scannerController != null) {
+                scannerController.releaseScanner();
+                scannerController = null;
+            }
+        } catch (Exception e) {
+            Log.e("AuthFragment", "Error destroying scanner", e);
+        }
+        if (mWaitDialog != null) {
+            mWaitDialog.dismiss();
+        }
     }
 
     @Override
@@ -105,14 +106,21 @@ public class AuthFragment extends BaseFragment implements AuthView, ScannerManag
     @Override
     public void successMessage(@NonNull String msg) {
         SPHelper.setNameEmployer(msg);
-        mWaitDialog.dismiss();
+        if (mWaitDialog != null) {
+            mWaitDialog.dismiss();
+        }
         Toast.makeText(getContext(), "Пользователь успешно авторизован", Toast.LENGTH_SHORT).show();
-        ((StartActivity) getActivity()).replaceFragment(StartFragment.Companion.newInstance(), false);
+        // Замена фрагмента
+        if (getActivity() instanceof StartActivity) {
+            ((StartActivity) getActivity()).replaceFragment(StartFragment.Companion.newInstance(), true);
+        }
     }
 
     @Override
     public void errorMessage(@NonNull String msg) {
-        mWaitDialog.dismiss();
+        if (mWaitDialog != null) {
+            mWaitDialog.dismiss();
+        }
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

@@ -50,10 +50,16 @@ public final class InfoArticleFragmentBinding implements ViewBinding {
   public final LinearLayout lineSyrya;
 
   @NonNull
+  public final EditText month;
+
+  @NonNull
   public final TextView nameArticle;
 
   @NonNull
   public final TextView nameStuff;
+
+  @NonNull
+  public final LinearLayout scan;
 
   @NonNull
   public final EditText second;
@@ -65,8 +71,9 @@ public final class InfoArticleFragmentBinding implements ViewBinding {
       @NonNull TextView articulSyrya, @NonNull AppCompatButton btnCheck,
       @NonNull AppCompatButton btnClanced, @NonNull AppCompatButton btnWork,
       @NonNull EditText first, @NonNull TextView itog, @NonNull TextView kolvoSyrya,
-      @NonNull LinearLayout line, @NonNull LinearLayout lineSyrya, @NonNull TextView nameArticle,
-      @NonNull TextView nameStuff, @NonNull EditText second, @NonNull LinearLayout srok) {
+      @NonNull LinearLayout line, @NonNull LinearLayout lineSyrya, @NonNull EditText month,
+      @NonNull TextView nameArticle, @NonNull TextView nameStuff, @NonNull LinearLayout scan,
+      @NonNull EditText second, @NonNull LinearLayout srok) {
     this.rootView = rootView;
     this.articulSyrya = articulSyrya;
     this.btnCheck = btnCheck;
@@ -77,8 +84,10 @@ public final class InfoArticleFragmentBinding implements ViewBinding {
     this.kolvoSyrya = kolvoSyrya;
     this.line = line;
     this.lineSyrya = lineSyrya;
+    this.month = month;
     this.nameArticle = nameArticle;
     this.nameStuff = nameStuff;
+    this.scan = scan;
     this.second = second;
     this.srok = srok;
   }
@@ -164,6 +173,12 @@ public final class InfoArticleFragmentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.month;
+      EditText month = ViewBindings.findChildViewById(rootView, id);
+      if (month == null) {
+        break missingId;
+      }
+
       id = R.id.name_article;
       TextView nameArticle = ViewBindings.findChildViewById(rootView, id);
       if (nameArticle == null) {
@@ -173,6 +188,12 @@ public final class InfoArticleFragmentBinding implements ViewBinding {
       id = R.id.name_stuff;
       TextView nameStuff = ViewBindings.findChildViewById(rootView, id);
       if (nameStuff == null) {
+        break missingId;
+      }
+
+      id = R.id.scan;
+      LinearLayout scan = ViewBindings.findChildViewById(rootView, id);
+      if (scan == null) {
         break missingId;
       }
 
@@ -189,8 +210,8 @@ public final class InfoArticleFragmentBinding implements ViewBinding {
       }
 
       return new InfoArticleFragmentBinding((ConstraintLayout) rootView, articulSyrya, btnCheck,
-          btnClanced, btnWork, first, itog, kolvoSyrya, line, lineSyrya, nameArticle, nameStuff,
-          second, srok);
+          btnClanced, btnWork, first, itog, kolvoSyrya, line, lineSyrya, month, nameArticle,
+          nameStuff, scan, second, srok);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

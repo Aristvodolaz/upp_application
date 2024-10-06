@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timetrekerforandroid.activity.StartActivity
 import com.example.timetrekerforandroid.adapter.NameFileAdapter
-import com.example.timetrekerforandroid.databinding.StartFragmentBinding
 import com.example.timetrekerforandroid.databinding.StartsFragmentBinding
+import com.example.timetrekerforandroid.fragment.navigation.TasksFragment
+import com.example.timetrekerforandroid.network.response.Data
 import com.example.timetrekerforandroid.presenter.StartPresenter
 import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.StartView
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
 
 class StartFragment: Fragment(), StartView, NameFileAdapter.OnClickItem {
@@ -46,53 +45,19 @@ class StartFragment: Fragment(), StartView, NameFileAdapter.OnClickItem {
     }
 
     private fun initViews() {
-        setupTabs()
-        setupTabSelectionHandler()
-
         presenter = StartPresenter(this)
         showDialog()
-        presenter.getDataInWait()
-    }
+        presenter.getDataInWork()
 
-    private fun setupTabs() {
-        val tab1 = binding.tab.newTab().setText("В ожидании")
-        val tab2 = binding.tab.newTab().setText("В работе")
+        binding.name.text = SPHelper.getSklad()
 
-        binding.tab.apply {
-            addTab(tab1)
-            addTab(tab2)
+        binding.btn.setOnClickListener{
+            (activity as StartActivity).replaceFragment(ChooseSkladFragment.newInstance(), false)
         }
     }
 
-    private fun setupTabSelectionHandler() {
-        binding.tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                isWaiting = tab.position == 0
-                showDialog()
-                if (isWaiting) {
-                    wait = true
-                    presenter.getDataInWait()
-                } else {
-                    wait = false
-                    presenter.getDataInWork()
-                }
-            }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-            }
-        })
-    }
-
-
-    override fun getDataInWait(data: List<String>) {
-        mWaitDialog.dismiss()
-        handlerAdapter(data)
-    }
-
-    override fun getDataInWork(data: List<String>) {
+    override fun getDataInWork(data: List<Data>) {
         mWaitDialog.dismiss()
         handlerAdapter(data)
     }
@@ -102,19 +67,15 @@ class StartFragment: Fragment(), StartView, NameFileAdapter.OnClickItem {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
     }
 
-    private fun handlerAdapter(data: List<String>){
+    private fun handlerAdapter(data: List<Data>){
         adapter = context?.let{ NameFileAdapter(it, data, this) }
         binding.rv.layoutManager = LinearLayoutManager(context)
         binding.rv.adapter = adapter
     }
 
     override fun onClick(name: String) {
-        if(wait){
-            showDialog()
-            presenter.downloadExcel(name)
-        } else {
-            (activity as StartActivity).replaceFragment(TasksFragment.newInstance(name), true);
-        }
+        SPHelper.setPrefics(name.split(" ").first())
+        (activity as StartActivity).replaceFragment(TasksFragment.newInstance(name), true);
     }
 
 

@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetrekerforandroid.R
+import com.example.timetrekerforandroid.network.response.Data
 import com.example.timetrekerforandroid.util.SPHelper
 
-class NameFileAdapter(private val context: Context, private val namesList: List<String>,
+class NameFileAdapter(private val context: Context, private val namesList: List<Data>,
     private val onClickItem: OnClickItem): RecyclerView.Adapter<NameFileAdapter.LabelHolder>() {
     interface OnClickItem{
         fun onClick(name: String)
@@ -26,10 +27,10 @@ class NameFileAdapter(private val context: Context, private val namesList: List<
 
     override fun onBindViewHolder(holder: LabelHolder, position: Int) {
         val nameFilesData = namesList[position]
-        holder.bind(nameFilesData)
+        holder.bind(nameFilesData.Nazvanie_Zadaniya)
         holder.itemView.setOnClickListener {
-            SPHelper.setNameTask(namesList[position])
-            onClickItem.onClick(namesList[position])
+            SPHelper.setNameTask(namesList[position].Nazvanie_Zadaniya)
+            onClickItem.onClick(namesList[position].Nazvanie_Zadaniya)
         }
 
     }

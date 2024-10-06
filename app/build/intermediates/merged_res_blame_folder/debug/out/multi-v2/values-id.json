@@ -4,7 +4,7 @@
             "outputFile": "com.example.timetrekerforandroid.app-mergeDebugResources-67:/values-id/values-id.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\paa_lc\\.gradle\\caches\\transforms-3\\847222304c42ff5499d321cc6190da50\\transformed\\jetified-zxing-android-embedded-4.2.0\\res\\values-id\\values-id.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\transforms-3\\847222304c42ff5499d321cc6190da50\\transformed\\jetified-zxing-android-embedded-4.2.0\\res\\values-id\\values-id.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

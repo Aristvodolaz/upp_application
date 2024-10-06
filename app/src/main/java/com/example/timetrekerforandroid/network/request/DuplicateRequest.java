@@ -7,7 +7,7 @@ public class DuplicateRequest {
     @SerializedName("articul") int articul;
     @SerializedName("mesto") String mesto;
     @SerializedName("vlozhennost") String vlozhennost;
-    @SerializedName("pallletNo") String palletNo;
+    @SerializedName("palletNo") String palletNo;
 
     public DuplicateRequest(String taskName, int articul, String mesto, String vlozhennost, String palletNo) {
         this.taskName = taskName;

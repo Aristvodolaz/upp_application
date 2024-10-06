@@ -3,6 +3,8 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        jcenter()
+
     }
 }
 dependencyResolutionManagement {
@@ -10,8 +12,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
         jcenter()
+        maven {url = "https://zebratech.jfrog.io/artifactory/EMDK-Android/"}
     }
 }
-rootProject.name = "TimeTrekerForAndroid"
+
+rootProject.name = "My Application"
 include ':app'

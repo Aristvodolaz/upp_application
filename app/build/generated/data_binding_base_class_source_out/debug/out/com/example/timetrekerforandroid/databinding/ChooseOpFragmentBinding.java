@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -20,7 +19,7 @@ import java.lang.String;
 
 public final class ChooseOpFragmentBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final LinearLayout rootView;
 
   @NonNull
   public final AppCompatButton btnSk;
@@ -35,22 +34,43 @@ public final class ChooseOpFragmentBinding implements ViewBinding {
   public final TextView name;
 
   @NonNull
+  public final TextView nameArticle;
+
+  @NonNull
+  public final TextView nameShk;
+
+  @NonNull
+  public final TextView nameStuff;
+
+  @NonNull
   public final RecyclerView rv;
 
-  private ChooseOpFragmentBinding(@NonNull ConstraintLayout rootView,
-      @NonNull AppCompatButton btnSk, @NonNull View line, @NonNull LinearLayout linear,
-      @NonNull TextView name, @NonNull RecyclerView rv) {
+  @NonNull
+  public final TextView size;
+
+  @NonNull
+  public final TextView sizeSyrya;
+
+  private ChooseOpFragmentBinding(@NonNull LinearLayout rootView, @NonNull AppCompatButton btnSk,
+      @NonNull View line, @NonNull LinearLayout linear, @NonNull TextView name,
+      @NonNull TextView nameArticle, @NonNull TextView nameShk, @NonNull TextView nameStuff,
+      @NonNull RecyclerView rv, @NonNull TextView size, @NonNull TextView sizeSyrya) {
     this.rootView = rootView;
     this.btnSk = btnSk;
     this.line = line;
     this.linear = linear;
     this.name = name;
+    this.nameArticle = nameArticle;
+    this.nameShk = nameShk;
+    this.nameStuff = nameStuff;
     this.rv = rv;
+    this.size = size;
+    this.sizeSyrya = sizeSyrya;
   }
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -99,14 +119,44 @@ public final class ChooseOpFragmentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.name_article;
+      TextView nameArticle = ViewBindings.findChildViewById(rootView, id);
+      if (nameArticle == null) {
+        break missingId;
+      }
+
+      id = R.id.name_shk;
+      TextView nameShk = ViewBindings.findChildViewById(rootView, id);
+      if (nameShk == null) {
+        break missingId;
+      }
+
+      id = R.id.name_stuff;
+      TextView nameStuff = ViewBindings.findChildViewById(rootView, id);
+      if (nameStuff == null) {
+        break missingId;
+      }
+
       id = R.id.rv;
       RecyclerView rv = ViewBindings.findChildViewById(rootView, id);
       if (rv == null) {
         break missingId;
       }
 
-      return new ChooseOpFragmentBinding((ConstraintLayout) rootView, btnSk, line, linear, name,
-          rv);
+      id = R.id.size;
+      TextView size = ViewBindings.findChildViewById(rootView, id);
+      if (size == null) {
+        break missingId;
+      }
+
+      id = R.id.size_syrya;
+      TextView sizeSyrya = ViewBindings.findChildViewById(rootView, id);
+      if (sizeSyrya == null) {
+        break missingId;
+      }
+
+      return new ChooseOpFragmentBinding((LinearLayout) rootView, btnSk, line, linear, name,
+          nameArticle, nameShk, nameStuff, rv, size, sizeSyrya);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

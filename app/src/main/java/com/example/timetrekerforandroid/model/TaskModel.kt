@@ -1,17 +1,27 @@
 package com.example.timetrekerforandroid.model
 
 import com.example.timetrekerforandroid.network.BaseDataProvider
+import com.example.timetrekerforandroid.network.Const
 import com.example.timetrekerforandroid.network.request.CheckBoxRequest
 import com.example.timetrekerforandroid.network.request.DuplicateRequest
 import com.example.timetrekerforandroid.network.request.EndStatusRequest
 import com.example.timetrekerforandroid.network.request.FinishedRequest
+import com.example.timetrekerforandroid.network.request.SrokGodnostiRequest
+import com.example.timetrekerforandroid.network.request.StatusRequest
+import com.example.timetrekerforandroid.network.request.UpdateShkWpsRequest
 import com.example.timetrekerforandroid.network.request.UpdateSrokGodnostiRequest
 import com.example.timetrekerforandroid.network.request.UpdateStatusRequest
 import com.example.timetrekerforandroid.network.response.ArticlesResponse
+import com.example.timetrekerforandroid.network.response.ChooseOpResponse
+import com.example.timetrekerforandroid.network.response.DataWBResponse
 import com.example.timetrekerforandroid.network.response.FinishedResponse
+import com.example.timetrekerforandroid.network.response.PrivyazkaResponse
 import com.example.timetrekerforandroid.network.response.UniversalResponse
+import com.example.timetrekerforandroid.network.response.WBDataResponse
 import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.util.TimeHelper.getTime
+import retrofit2.http.GET
+import retrofit2.http.Query
 import rx.Observable
 
 class TaskModel: BaseDataProvider() {
@@ -25,7 +35,7 @@ class TaskModel: BaseDataProvider() {
     }
 
     fun updateStatusOPChoose(list: List<String>): Observable<UniversalResponse>{
-        return service.updateCheckBox(CheckBoxRequest(SPHelper.getNameTask(), SPHelper.getShkWork(), list)).compose(applySchedulers())
+        return service.updateCheckBox(CheckBoxRequest(SPHelper.getNameTask(), SPHelper.getArticuleWork().toInt(), list)).compose(applySchedulers())
     }
 
     fun sendFinishedInformation(mesto: String, vlozhennost: String, palet: String): Observable<FinishedResponse>{
@@ -43,5 +53,43 @@ class TaskModel: BaseDataProvider() {
 
     fun endStatus(): Observable<UniversalResponse>{
         return service.endStatus(EndStatusRequest(SPHelper.getNameTask(), SPHelper.getArticuleWork(), 2, getTime(), SPHelper.getNameEmployer(), 1)).compose(applySchedulers())
+    }
+
+    fun setStatus(status: Int): Observable<UniversalResponse>{
+        return service.setStatus(StatusRequest(SPHelper.getNameTask(), SPHelper.getArticuleWork().toInt(), status)).compose(applySchedulers())
+    }
+
+    fun udpateSHKWps(shk: String): Observable<UniversalResponse>{
+        return service.updateSHKWps(UpdateShkWpsRequest(SPHelper.getNameTask(),SPHelper.getArticuleWork().toInt(),shk)).compose(applySchedulers())
+    }
+
+    fun getLdu(artikul: Int, name: String): Observable<ChooseOpResponse>{
+        return service.getLDU(artikul, name).compose(applySchedulers())
+    }
+
+    fun getPackingData(status: Int): Observable<ArticlesResponse> {
+        return service.getTasksInWork(SPHelper.getNameTask(), status).compose(applySchedulers())
+    }
+
+    fun getPackingDataFull(): Observable<ArticlesResponse> {
+        return service.getTasksInWorkFull(SPHelper.getNameTask()).compose(applySchedulers())
+    }
+
+
+     suspend fun getDataWB(): WBDataResponse {
+        return service.getDataWb(SPHelper.getNameTask())
+    }
+
+    suspend fun calncelTask(reason: String, comment: String): UniversalResponse{
+        return  service.cancelTask(SPHelper.getNameTask(), SPHelper.getArticuleWork().toInt(), comment, reason)
+    }
+
+    suspend fun addSrokForWB(data: String): UniversalResponse{
+        return service.addSrokGodnosti(SrokGodnostiRequest(SPHelper.getNameTask(), SPHelper.getArticuleWork().toInt(), data))
+    }
+
+    // Получение данных задачи
+    fun getTaskData(): Observable<ChooseOpResponse> {
+        return service.getLDU(SPHelper.getArticuleWork().toInt(),SPHelper.getNameTask())
     }
 }

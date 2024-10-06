@@ -8,12 +8,21 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetrekerforandroid.R
+import com.example.timetrekerforandroid.util.InfoForCheckBox
 import com.example.timetrekerforandroid.util.InfoForCheckBox.infoBoxToDB
-
-class ChooseOpAdapter(private val context: Context, private val names: Array<String>) : RecyclerView.Adapter<ChooseOpAdapter.LabelHolder>() {
+class ChooseOpAdapter(
+    private val context: Context,
+    private val names: Array<String>,
+    private val valuesMap: Map<String, Boolean>  // Карта начальных значений для галочек
+) : RecyclerView.Adapter<ChooseOpAdapter.LabelHolder>() {
 
     private val selectedItems = mutableSetOf<String>()
     var onClickItem: OnClickItem? = null
+
+    init {
+        // Инициализируем выбранные элементы на основе valuesMap
+        selectedItems.addAll(valuesMap.filterValues { it }.keys)
+    }
 
     fun getData(): List<String> {
         return selectedItems.toList()
@@ -36,11 +45,11 @@ class ChooseOpAdapter(private val context: Context, private val names: Array<Str
 
     override fun onBindViewHolder(holder: LabelHolder, position: Int) {
         val nameFiles = names[position]
-        val nameFilesData = infoBoxToDB[position]
+        val nameFilesData = InfoForCheckBox.infoBoxToDB[position]
         holder.bind(nameFiles)
 
         holder.checkBox.setOnCheckedChangeListener(null)
-        holder.checkBox.isChecked = selectedItems.contains(nameFilesData)
+        holder.checkBox.isChecked = selectedItems.contains(nameFilesData) || valuesMap[nameFilesData] == true
 
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -63,5 +72,14 @@ class ChooseOpAdapter(private val context: Context, private val names: Array<Str
 
     interface OnClickItem {
         fun onItemClick(names: MutableSet<String>)
+    }
+
+    // Функция для получения данных для отправки на сервер
+    fun getValuesForServer(): Map<String, String?> {
+        val result = mutableMapOf<String, String?>()
+        InfoForCheckBox.infoBoxToDB.forEach { key ->
+            result[key] = if (selectedItems.contains(key)) "V" else null
+        }
+        return result
     }
 }
