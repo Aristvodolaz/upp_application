@@ -83,13 +83,14 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
         val lowerCaseText = text.lowercase(Locale.getDefault())
         if (SPHelper.getPrefics() == "WB") {
             adapterWb?.setFilterData(originalDataWB?.filter {
-                it.artikul.toString().contains(lowerCaseText) || it.shk.contains(lowerCaseText)
+                it.artikul.toString().contains(lowerCaseText) || it.shk.lowercase(Locale.getDefault()).contains(lowerCaseText)
             } ?: emptyList())
         } else {
             adapter?.setFilterData(originalData?.filter {
                 it.artikul.toString().contains(lowerCaseText) ||
                         it.artikulSyrya?.toString()?.contains(lowerCaseText) == true ||
-                        it.nazvanieTovara?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
+                        it.nazvanieTovara?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
+                        it.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
             } ?: emptyList())
         }
     }
@@ -126,11 +127,20 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
 
     private fun filterOnSHK(text: String) {
         val lowerCaseText = text.lowercase(Locale.getDefault())
-        adapter?.setFilterData(originalData?.filter {
-            it.shk?.toString()?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
-                    it.shkSpo1?.toString()?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
-                    it.shkWps.toString().lowercase(Locale.getDefault()).contains(lowerCaseText)
-        } ?: emptyList())
+        if (SPHelper.getPrefics() == "WB") {
+            adapterWb?.setFilterData(originalDataWB?.filter {
+                it.shk.lowercase(Locale.getDefault()).contains(lowerCaseText)||
+                        it.pallet.lowercase(Locale.getDefault()).contains(lowerCaseText)
+            } ?: emptyList())
+        } else {
+            adapter?.setFilterData(originalData?.filter {
+                it.shk?.toString()?.lowercase(Locale.getDefault())
+                    ?.contains(lowerCaseText) == true ||
+                        it.shkSpo1?.toString()?.lowercase(Locale.getDefault())
+                            ?.contains(lowerCaseText) == true ||
+                        it.shkWps.toString().lowercase(Locale.getDefault()).contains(lowerCaseText)
+            } ?: emptyList())
+        }
     }
 
     private fun showDialog() {
@@ -144,16 +154,21 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         }
     }
-
-    override fun success(msg: String) {
+    override fun success (msg: String) {
         waitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        requireActivity().runOnUiThread {
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     override fun error(msg: String) {
         waitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        requireActivity().runOnUiThread {
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     override fun getData(data: List<ArticlesResponse.Articuls>) {
         waitDialog.dismiss()

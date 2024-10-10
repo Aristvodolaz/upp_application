@@ -101,6 +101,8 @@ public class StartActivity extends BaseActivity implements ScannerController.Sca
             ((MasterEditFragment) currentFragment).onDataReceived(barcodeData);
         }else if (currentFragment instanceof PakingFragment) {
             ((PakingFragment) currentFragment).onDataReceived(barcodeData);
+        } else if (currentFragment instanceof EditFragment) {
+            ((EditFragment) currentFragment).onDataReceived(barcodeData);
         }
     }
 

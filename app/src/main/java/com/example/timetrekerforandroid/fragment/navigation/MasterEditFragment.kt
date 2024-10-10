@@ -82,10 +82,8 @@ class MasterEditFragment : Fragment(), ScannerController.ScannerCallback, Packin
     private fun filterOnSHK(text: String) {
         val lowerCaseText = text.lowercase(Locale.getDefault()).trim()
         val filteredList = originalData?.filter {
-            it.artikul?.toString()?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
                     it.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
-                    it.shkSpo1?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
-                    it.artikulSyrya?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
+                    it.shkSpo1?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
         } ?: emptyList()
         Log.d("FILTER", "Filtered data size: ${filteredList.size}")
         adapter?.setFilterData(filteredList)

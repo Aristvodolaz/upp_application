@@ -40,10 +40,6 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\hello_fragment_two.xml"
     },
     {
-        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_info_syryo_fragment.xml.flat",
-        "source": "com.example.timetrekerforandroid.app-main-71:/layout/info_syryo_fragment.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
@@ -194,6 +190,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\anim_splash_anim.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\anim\\splash_anim.xml"
+    },
+    {
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_dialog_cancel_reson.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/dialog_cancel_reson.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-hdpi_ic_launcher_round.webp.flat",

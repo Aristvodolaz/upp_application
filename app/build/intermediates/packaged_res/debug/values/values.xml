@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="cancel_reasons">
+        <item>Не соответствует СГ</item>
+        <item>Недостача</item>
+        <item>Недовложение</item>
+        <item>Брак</item>
+        <item>Вычерк склада</item>
+        <item>Излишек</item>
+        <item>Убрать из обработки(экстренно)</item>
+    </string-array>
     <color name="black">#FF000000</color>
     <color name="logo_background">#FFFFFF</color>
     <color name="purple_200">#FFBB86FC</color>

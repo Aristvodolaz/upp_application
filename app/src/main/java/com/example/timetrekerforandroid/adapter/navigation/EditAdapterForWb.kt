@@ -1,5 +1,6 @@
 package com.example.timetrekerforandroid.adapter.navigation
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -51,9 +52,11 @@ class EditAdapterForWb (
         private val artikul: TextView = itemView.findViewById(R.id.artikul)
         private val shk: TextView = itemView.findViewById(R.id.shk)
 
+        @SuppressLint("SetTextI18n")
         fun bind(data: DataWBResponse) {
-            name.text = data.artikul.toString()
-            shk.text = data?.shk?.toString()
+            name.text = "Артикул: ${data.artikul}"
+            artikul.text = data?.shk?.toString()
+            shk.text ="Паллет:${data?.pallet}"
         }
     }
 }
