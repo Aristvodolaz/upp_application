@@ -5,11 +5,19 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Dropdown for selecting reason -->
+    <Spinner
+        android:id="@+id/reasonSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/cancel_reasons" />
+
     <!-- Text input for comment -->
     <EditText
         android:id="@+id/commentEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Комментарий"
-        android:inputType="textCapSentences" />
+        android:inputType="textCapSentences"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>

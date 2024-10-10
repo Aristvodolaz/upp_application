@@ -76,6 +76,7 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array cancel_reasons
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -3199,6 +3200,7 @@ id anticipate
 id arc
 id articul_syrya
 id artikul
+id artikul_syrya
 id asConfigured
 id async
 id auto
@@ -3264,6 +3266,7 @@ id contentPanel
 id contiguous
 id continuousVelocity
 id coordinator
+id coroba
 id cos
 id counterclockwise
 id cradle
@@ -3377,6 +3380,7 @@ id item_touch_helper_previous_elevation
 id itog
 id jumpToEnd
 id jumpToStart
+id kolvo_surya
 id kolvo_syrya
 id labeled
 id layout
@@ -3515,6 +3519,7 @@ id progress_circular
 id progress_horizontal
 id radio
 id ratio
+id reasonSpinner
 id rectangles
 id report_drawn
 id reverseSawtooth

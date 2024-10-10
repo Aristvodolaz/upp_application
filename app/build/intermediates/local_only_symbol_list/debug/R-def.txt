@@ -1,6 +1,7 @@
 R_DEF: Internal format may change without notice
 local
 anim splash_anim
+array cancel_reasons
 color black
 color logo_background
 color purple_200
@@ -31,6 +32,7 @@ font roboto_medium
 font roboto_regular
 id articul_syrya
 id artikul
+id artikul_syrya
 id bottom_navigation
 id btn
 id btn_add
@@ -44,11 +46,13 @@ id btn_work
 id check
 id commentEditText
 id container
+id coroba
 id descriptionTextView
 id et
 id first
 id first_shk
 id itog
+id kolvo_surya
 id kolvo_syrya
 id line
 id line_syrya
@@ -70,6 +74,7 @@ id not_standrt_btn
 id palet_dop_et
 id palet_et
 id preview_view
+id reasonSpinner
 id rv
 id saveButton
 id scan

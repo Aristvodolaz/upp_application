@@ -42,6 +42,8 @@ public class Const {
     public static final String GET_RECORD_BY_SHK = "/market/tasks/getLDU";
 
     public static final String PRIVYAZKA = "/privyazka/add";
+    public static final String CHECK_WPS = "/privyazka/checkSHKWps";
+
     public static final String GET_ZAPIS_LIST = "/privyazka/getZapis";
     public static final String ADD_SROK_GODNOSTI = "/privyazka/addSrokGodnosti";
     public static final String END_STATUS_WB = "/privyazka/endStatus";

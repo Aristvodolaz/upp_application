@@ -8,6 +8,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.DialogFragment;
@@ -37,39 +39,24 @@ public class CancelReasonDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_cancel_reson, null);
 
-        // Reference to the EditText for the comment input
+        // Reference to the EditText and Spinner for comment input and reason selection
         EditText commentEditText = dialogView.findViewById(R.id.commentEditText);
+        Spinner reasonSpinner = dialogView.findViewById(R.id.reasonSpinner);
+
+        // Set up the spinner adapter with reason list
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.cancel_reasons, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        reasonSpinner.setAdapter(adapter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), AlertDialogCustom));
         builder.setTitle("Причины отмены")
-                .setView(dialogView)  // Set the custom view with the EditText
-                .setItems(new String[]{
-                        "Не соответствует СГ",
-                        "Недостача",
-                        "Недовложение",
-                        "Брак",
-                        "Вычерк склада"
-                }, new DialogInterface.OnClickListener() {
+                .setView(dialogView)  // Set the custom view with the EditText and Spinner
+                .setPositiveButton(Html.fromHtml("<font color='#000000'>ОК</font>"), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String reason = "";
-                        switch (which) {
-                            case 0:
-                                reason = "Не соответствует СГ";
-                                break;
-                            case 1:
-                                reason = "Недостача";
-                                break;
-                            case 2:
-                                reason = "Недовложение";
-                                break;
-                            case 3:
-                                reason = "Брак";
-                                break;
-                            case 4:
-                                reason = "Вычерк склада";
-                                break;
-                        }
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Get the selected reason from Spinner
+                        String reason = reasonSpinner.getSelectedItem().toString();
 
                         // Get the entered comment from EditText
                         String comment = commentEditText.getText().toString().trim();

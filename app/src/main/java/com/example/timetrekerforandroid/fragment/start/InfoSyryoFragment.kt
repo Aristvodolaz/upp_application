@@ -20,6 +20,7 @@ import com.example.timetrekerforandroid.presenter.InfoArticlePresenter
 import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.InfoArticleView
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -27,9 +28,9 @@ import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
 
-class InfoSyryoFragment (private var name: String, private var article: String,
-                         private var fullSize: String, private var articul_syrya: String,
-                         private var kolvo_syrya: String): Fragment(), InfoArticleView, ApproveShkDialog.OnSendNewShk,
+class InfoSyryoFragment(private var name: String, private var article: String,
+                        private var fullSize: String, private var articulSyrya: String,
+                        private var kolvoSyrya: String): Fragment(), InfoArticleView, ApproveShkDialog.OnSendNewShk,
     ApproveSrokGodnostiDialog.OnSendApproveOnSrokGodnosti, CancelReasonDialog.OnCancelReasonSelected {
 
     private var _binding: InfoSyryoFragmentBinding? = null
@@ -38,19 +39,20 @@ class InfoSyryoFragment (private var name: String, private var article: String,
     private lateinit var mWaitDialog: WaitDialog
     private var persent: String = ""
     private var date: String = ""
-
+    var buffer: Boolean = false
+    var buffer_two: Boolean = false
     companion object {
-        fun newInstance(name: String, article: String, fullSize: String,  articul_syrya: String, kolvo_syrya: String): InfoSyryoFragment {
-            return InfoSyryoFragment(name, article, fullSize, articul_syrya, kolvo_syrya)
+        fun newInstance(name: String, article: String, fullSize: String, articulSyrya: String, kolvoSyrya: String): InfoSyryoFragment {
+            return InfoSyryoFragment(name, article, fullSize, articulSyrya, kolvoSyrya)
         }
     }
 
     private fun showDialog() {
-        mWaitDialog = WaitDialog.newInstance()
-        mWaitDialog.isCancelable = false
+        mWaitDialog = WaitDialog.newInstance().apply { isCancelable = false }
         fragmentManager?.let { mWaitDialog.show(it, WaitDialog.TAG) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = InfoSyryoFragmentBinding.inflate(inflater, container, false)
         initViews()
@@ -59,83 +61,115 @@ class InfoSyryoFragment (private var name: String, private var article: String,
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initViews() {
-        binding.nameArticle.text = "Артикул товара: $article"
-        SPHelper.setArticuleWork(article)
-        binding.nameStuff.text = name
-        binding.itog.text = "Итог заказа: $fullSize"
+        with(binding) {
+            nameArticle.text = "Артикул товара: $article"
+            SPHelper.setArticuleWork(article)
+            nameStuff.text = name
+            itog.text = "Итог заказа: $fullSize"
 
-        presenter = InfoArticlePresenter(this)
+            presenter = InfoArticlePresenter(this@InfoSyryoFragment)
 
-        binding.btnWork.setOnClickListener {
-            showDialog()
-            presenter.changeStatusTask(article, 1)
-            binding.btnWork.visibility = View.GONE
-            binding.btnClanced.visibility = View.VISIBLE
-            if((SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB") || SPHelper.getPrefics() == "OZON" || SPHelper.getPrefics() == "ЯМ")
-                binding.btnCheck.visibility = View.VISIBLE
-            else binding.btnCheck.visibility = View.GONE        }
+            btnWork.setOnClickListener {
+                showDialog()
+                presenter.changeStatusTask(article, 1)
+                btnWork.visibility = View.GONE
+                btnClanced.visibility = View.VISIBLE
+                btnCheck.visibility = if (shouldShowCheckButton()) View.VISIBLE else View.GONE
+            }
 
-        binding.btnClanced.setOnClickListener{
-            showDialog()
-            presenter.sendEndStatus()
-        }
+            btnClanced.setOnClickListener {
+                showDialog()
+                presenter.sendEndStatus()
+            }
 
-        if ((SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB") || SPHelper.getPrefics() == "OZON" || SPHelper.getPrefics() == "ЯМ") {
-            binding.srok.visibility = View.VISIBLE
-            binding.btnCheck.visibility = View.VISIBLE
-        } else {
-            binding.srok.visibility = View.GONE
-            binding.btnCheck.visibility = View.GONE
-            binding.btnNext.visibility = View.VISIBLE
-        }
-
-        binding.btnCheck.setOnClickListener {
-            if ((SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB") || SPHelper.getPrefics() == "OZON" || SPHelper.getPrefics() == "ЯМ") {
-                when {
-                    binding.first.text.isNotEmpty() && binding.second.text.isNotEmpty() -> {
-                        firstAndLastDate(binding.first.text.toString(), binding.second.text.toString())
-                    }
-                    binding.first.text.isNotEmpty() && binding.month.text.isNotEmpty() ->{
-                        calculateExpirationDate(binding.first.text.toString(), binding.month.text.toString().toInt())
-                    }
-                    binding.first.text.isNotEmpty() -> {
-                        showDialog()
-                        presenter.searchArticleInDbForSG(article)
-                    }
-                    binding.second.text.isNotEmpty() -> {
-                        lastDate()
-                    }
-                    else -> {
-                        Toast.makeText(context, "Введите дату срока годности", Toast.LENGTH_SHORT).show()
-                    }
-                }
+            if (shouldShowCheckButton()) {
+                srok.visibility = View.VISIBLE
+                btnCheck.visibility = View.VISIBLE
             } else {
-                Toast.makeText(context, "Срок годности не требуется для этого товара", Toast.LENGTH_SHORT).show()
+                srok.visibility = View.GONE
+                btnCheck.visibility = View.GONE
+                btnNext.visibility = View.VISIBLE
+            }
+
+            btnCheck.setOnClickListener { handleCheckButtonClick() }
+
+            lineSyrya.visibility = View.VISIBLE
+            binding.artikulSyrya.text = "Артикул сырья: $articulSyrya"
+            binding.kolvoSurya.text = "Количество сырья: $kolvoSyrya"
+
+            btnNext.setOnClickListener {
+                (activity as StartActivity).replaceFragment(ChooseOpFragment.newInstance(), false)
+            }
+            btnClanced.setOnClickListener {
+                val dialog = CancelReasonDialog.newInstance(this@InfoSyryoFragment)
+                dialog.isCancelable = true
+                requireActivity().supportFragmentManager.let { dialog.show(it, "cancel_reason") }
             }
         }
+    }
 
+    private fun shouldShowCheckButton(): Boolean {
+        val prefics = SPHelper.getPrefics()
+        return (SPHelper.getSrokGodnosti() && prefics == "WB") || prefics in listOf("OZON", "ЯМ")
+    }
 
-
-            binding.lineSyrya.visibility = View.VISIBLE
-            binding.articulSyrya.text = "Артикул сырья: $articul_syrya"
-            binding.kolvoSyrya.text = "Количество сырья: $kolvo_syrya"
-
-        binding.btnNext.setOnClickListener{
-            (activity as StartActivity).replaceFragment(ChooseOpFragment.newInstance(), false)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun handleCheckButtonClick() {
+        with(binding) {
+            when {
+                first.text.isNotEmpty() && second.text.isNotEmpty() -> {
+                    if (areDatesValid(first.text.toString(), second.text.toString())) {
+                        firstAndLastDate(first.text.toString(), second.text.toString())
+                    } else {
+                        showInvalidDateFormatError()
+                    }
+                }
+                first.text.isNotEmpty() && month.text.isNotEmpty() -> {
+                    if (isValidDate(first.text.toString())) {
+                        calculateExpirationDate(first.text.toString(), month.text.toString().toInt())
+                    } else {
+                        showInvalidDateFormatError()
+                    }
+                }
+                first.text.isNotEmpty() -> {
+                    if (isValidDate(first.text.toString())) {
+                        showDialog()
+                        presenter.searchArticleInDbForSG(article)
+                    } else {
+                        showInvalidDateFormatError()
+                    }
+                }
+                second.text.isNotEmpty() -> {
+                    if (isValidDate(second.text.toString())) {
+                        lastDate()
+                    } else {
+                        showInvalidDateFormatError()
+                    }
+                }
+                else -> {
+                    showToast("Введите дату срока годности")
+                }
+            }
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun calculateExpirationDate(firstDateInput: String, months: Int) {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        val firstDate = dateFormat.parse(firstDateInput) ?: return
 
-        val expirationDate = LocalDate.parse(firstDateInput, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            .plusMonths(months.toLong())
-
-        // Преобразуем в строку для отображения
-        val secondDate = expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-        visableDialogApprove(checkDate(firstDateInput, secondDate))
+    private fun areDatesValid(vararg dates: String): Boolean {
+        return dates.all { isValidDate(it) }
     }
+
+    private fun isValidDate(date: String): Boolean {
+        return try {
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).apply { isLenient = false }
+            dateFormat.parse(date) != null
+        } catch (e: ParseException) {
+            false
+        }
+    }
+
+    private fun showInvalidDateFormatError() {
+        showToast("Неверный формат даты. Используйте формат dd.MM.yyyy")
+    }
+
     private fun lastDate() {
         date = binding.second.text.toString()
         persent = "0"
@@ -146,23 +180,31 @@ class InfoSyryoFragment (private var name: String, private var article: String,
         visableDialogApprove(checkDate(first, second))
     }
 
-    private fun checkDate(first: String, second: String): String {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun calculateExpirationDate(firstDateInput: String, months: Int) {
+        val expirationDate = LocalDate.parse(firstDateInput, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            .plusMonths(months.toLong())
 
+        val secondDate = expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        visableDialogApprove(checkDate(firstDateInput, secondDate))
+    }
+
+    private fun checkDate(first: String, second: String): String {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val firstDate: Date? = dateFormat.parse(first)
         val secondDate: Date? = dateFormat.parse(second)
         date = second
         val currentDate = Date()
 
+        val diffDays = (secondDate!!.time - firstDate!!.time) / (1000 * 60 * 60 * 24)
+        val pastInDays = (currentDate.time - firstDate.time) / (1000 * 60 * 60 * 24)
 
-        val diffInMillis = secondDate!!.time - firstDate!!.time
-        val diffDays = diffInMillis / (1000 * 60 * 60 * 24)
-        val pastInMillis = currentDate.time - firstDate.time
-        val pastInDays = pastInMillis / (1000 * 60 * 60 * 24)
+        val percentage = pastInDays.toDouble() / diffDays * 100
+        return String.format("%.2f%%", percentage)
+    }
 
-
-        val itog = pastInDays.toDouble() / diffDays * 100
-        return String.format("%.2f%%", itog)
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun getDataInfo(data: ArticlesResponse.Articuls) {
@@ -171,12 +213,12 @@ class InfoSyryoFragment (private var name: String, private var article: String,
 
     override fun errorMessage(msg: String) {
         mWaitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        showToast(msg)
     }
 
     override fun successFindShk(msg: String) {
         mWaitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        showToast(msg)
     }
 
     override fun success() {
@@ -184,10 +226,10 @@ class InfoSyryoFragment (private var name: String, private var article: String,
     }
 
     override fun createNewShk(shk: String) {
-        Log.d(" NENNENENENE", "DJKDJKFJKL")
+        Log.d("NENNENENENE", "DJKDJKFJKL")
         val dialog = ApproveShkDialog.newInstance(shk, this)
         dialog.isCancelable = true
-        requireActivity().supportFragmentManager.let { dialog.show(it, "lol") }
+        requireActivity().supportFragmentManager.let { dialog.show(it, "gggg") }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -197,20 +239,19 @@ class InfoSyryoFragment (private var name: String, private var article: String,
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getPersent(days: Int): String{
+    private fun getPersent(days: Int): String {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val startDate = LocalDate.parse(binding.first.text.toString(), formatter)
         val currentDate = LocalDate.now()
         date = startDate.plusDays(days.toLong()).toString()
 
         val elapsedDays = ChronoUnit.DAYS.between(startDate, currentDate)
-
         val percentage = (elapsedDays.toDouble() / days.toDouble()) * 100
 
         return String.format("%.2f%%", percentage)
     }
 
-    fun visableDialogApprove(text: String){
+    private fun visableDialogApprove(text: String) {
         persent = text
         val dialog = ApproveSrokGodnostiDialog.newInstance(text, this)
         dialog.isCancelable = true
@@ -220,25 +261,19 @@ class InfoSyryoFragment (private var name: String, private var article: String,
     override fun writeLastDate() {
         mWaitDialog.dismiss()
         binding.first.text.clear()
-        Toast.makeText(context, "Введите последнюю дату", Toast.LENGTH_SHORT).show()
+        showToast("Введите последнюю дату")
     }
-
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // Установите binding в null, чтобы избежать утечек памяти
     }
 
-
     override fun sendApprove(approve: Boolean) {
-        if(approve){
+        if (approve) {
             Log.d("APPROVE", "TRUE")
             presenter.sendSrokGodnosti(date, persent)
-
-        }  else {
+        } else {
             Log.d("APPROVE", "FALSE")
             presenter.sendEndStatus()
         }
@@ -246,34 +281,47 @@ class InfoSyryoFragment (private var name: String, private var article: String,
 
     override fun successWriteSG() {
         mWaitDialog.dismiss()
-        Toast.makeText(context, "Срок годности успешно записан", Toast.LENGTH_SHORT).show()
-        binding.btnCheck.visibility = View.GONE
-        binding.srok.visibility = View.GONE
-        binding.btnNext.visibility = View.VISIBLE
+        showToast("Срок годности успешно записан")
+        with(binding) {
+            btnCheck.visibility = View.GONE
+            srok.visibility = View.GONE
+            btnNext.visibility = View.VISIBLE
+        }
     }
 
     override fun errorWriteSg() {
         mWaitDialog.dismiss()
-        Toast.makeText(context, "Ошибка соединения, повторите попытку", Toast.LENGTH_SHORT).show()
+        showToast("Ошибка соединения, повторите попытку")
     }
 
     override fun successEndStatus() {
         mWaitDialog.dismiss()
-//        (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+        if(!buffer_two){
+            if (buffer) {
+                buffer = false
+                presenter.sendEndStatus()
+            } else {
+                (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+            }
+        } else Toast.makeText(context, "Ваш комментарий записан, вы можете продолжить выкладку.", Toast.LENGTH_SHORT).show()
     }
+
 
     override fun sendNewShk(shk: String?) {
-        if (shk != null) {
-            presenter.updateShk(shk)
-        }
+        shk?.let { presenter.updateShk(it) }
     }
 
-
-
-    override fun onReasonSelected(reason: String, comment: String) {
-        presenter.cancelTask(reason, comment)
+    override fun successEndSG() {
+        mWaitDialog.dismiss()
         (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
     }
 
-
+    override fun onReasonSelected(reason: String, comment: String) {
+        presenter.cancelTask(reason, comment)
+        buffer_two = true
+        if(reason == "Убрать из обработки(экстренно)") {
+            buffer = true
+            buffer_two = false
+        }
+    }
 }

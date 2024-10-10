@@ -15,4 +15,5 @@ interface InfoArticleView {
     fun errorWriteSg()
 
     fun successEndStatus()
+    fun successEndSG()
 }

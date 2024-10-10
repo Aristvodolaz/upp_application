@@ -3,7 +3,6 @@ package com.example.timetrekerforandroid.fragment.navigation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.example.timetrekerforandroid.activity.StartActivity
 import com.example.timetrekerforandroid.adapter.navigation.EditAdapter
 import com.example.timetrekerforandroid.adapter.navigation.EditAdapterForWb
 import com.example.timetrekerforandroid.databinding.EditFragmentBinding
-import com.example.timetrekerforandroid.databinding.TasksFragmentBinding
 import com.example.timetrekerforandroid.fragment.ChangeFragment
 import com.example.timetrekerforandroid.fragment.edit.EditForWbFragment
 import com.example.timetrekerforandroid.network.response.ArticlesResponse
@@ -51,16 +49,18 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = EditFragmentBinding.inflate(inflater, container, false)
-        initViews()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+        setupPresenter()
+        setupRecyclerView()
+    }
+
     private fun initViews() {
-        Log.d("SPspdpddpdp", SPHelper.getPrefics())
         binding.name.text = SPHelper.getNameTask()
-        presenter = EditPresenter(this)
-
-
 
         binding.et.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
@@ -71,43 +71,27 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
         })
     }
 
-    private fun filter(text: String) {
-        if (SPHelper.getPrefics().equals("WB")) {
-            val filteredNameWB: ArrayList<DataWBResponse> = ArrayList()
-            originalDataWB?.let {
-                val lowerCaseText = text.lowercase(Locale.getDefault())
-                for (data in it) {
-                    val articulContains = data.artikul.toString().contains(lowerCaseText)
-                    val shkContains = data.shk.contains(lowerCaseText)
-
-                    if (articulContains || shkContains) {
-                        filteredNameWB.add(data)
-                    }
-                }
-                adapterWb?.setFilterData(filteredNameWB)
-            }
-        } else {
-            val filteredName: ArrayList<ArticlesResponse.Articuls?> = ArrayList()
-            originalData?.let {
-                val lowerCaseText = text.lowercase(Locale.getDefault())
-                for (data in it) {
-                    val articulContains = data.artikul.toString().contains(lowerCaseText)
-                    val articulSyryaContains = data.artikulSyrya?.toString()?.contains(lowerCaseText) == true
-                    val nameContains = data.nazvanieTovara?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
-
-                    if (articulContains || nameContains || articulSyryaContains) {
-                        filteredName.add(data)
-                    }
-                }
-                adapter?.setFilterData(filteredName)
-            }
-        }
+    private fun setupPresenter() {
+        presenter = EditPresenter(this)
     }
 
-    private fun showDialog() {
-        waitDialog = WaitDialog.newInstance()
-        waitDialog.isCancelable = false
-        fragmentManager?.let { waitDialog.show(it, WaitDialog.TAG) }
+    private fun setupRecyclerView() {
+        binding.rv.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun filter(text: String) {
+        val lowerCaseText = text.lowercase(Locale.getDefault())
+        if (SPHelper.getPrefics() == "WB") {
+            adapterWb?.setFilterData(originalDataWB?.filter {
+                it.artikul.toString().contains(lowerCaseText) || it.shk.contains(lowerCaseText)
+            } ?: emptyList())
+        } else {
+            adapter?.setFilterData(originalData?.filter {
+                it.artikul.toString().contains(lowerCaseText) ||
+                        it.artikulSyrya?.toString()?.contains(lowerCaseText) == true ||
+                        it.nazvanieTovara?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
+            } ?: emptyList())
+        }
     }
 
     override fun onResume() {
@@ -116,8 +100,11 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
         presenter = EditPresenter(this)
 
         showDialog()
-        if (SPHelper.getPrefics().equals("WB")) presenter.getDataForWB()
-        else presenter.getPackingData()
+        if (SPHelper.getPrefics() == "WB") {
+            presenter.getDataForWB()
+        } else {
+            presenter.getPackingData()
+        }
     }
 
     override fun onPause() {
@@ -128,31 +115,28 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
     override fun onDestroyView() {
         super.onDestroyView()
         scannerController.releaseScanner()
-        _binding = null // Очищаем binding, чтобы предотвратить утечки памяти
+        _binding = null
     }
 
     override fun onDataReceived(barcodeData: String) {
         requireActivity().runOnUiThread {
             filterOnSHK(barcodeData)
-            Log.d("BARCODE", barcodeData)
         }
     }
 
     private fun filterOnSHK(text: String) {
-        val filteredName: ArrayList<ArticlesResponse.Articuls?> = ArrayList()
-        originalData?.let {
-            for (data in it) {
-                val shkContains = data.shk?.toString()?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
-                val shkSpo1Contains = data.shkSpo1?.toString()?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
-                val shkWpsContains = data.shkWps.toString().lowercase(Locale.getDefault()).contains(text.lowercase(Locale.getDefault()))
+        val lowerCaseText = text.lowercase(Locale.getDefault())
+        adapter?.setFilterData(originalData?.filter {
+            it.shk?.toString()?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
+                    it.shkSpo1?.toString()?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
+                    it.shkWps.toString().lowercase(Locale.getDefault()).contains(lowerCaseText)
+        } ?: emptyList())
+    }
 
-                if (shkContains || shkSpo1Contains || shkWpsContains) {
-                    filteredName.add(data)
-                }
-            }
-            Log.d("FILTER", "Filtered data size: ${filteredName.size}") // Лог для отладки
-            adapter?.setFilterData(filteredName)
-        }
+    private fun showDialog() {
+        waitDialog = WaitDialog.newInstance()
+        waitDialog.isCancelable = false
+        fragmentManager?.let { waitDialog.show(it, WaitDialog.TAG) }
     }
 
     override fun onScanFailed(errorMessage: String) {
@@ -162,31 +146,31 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
     }
 
     override fun success(msg: String) {
+        waitDialog.dismiss()
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun error(msg: String) {
+        waitDialog.dismiss()
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun getData(data: List<ArticlesResponse.Articuls>) {
         waitDialog.dismiss()
-        originalData = ArrayList(data)
+        originalData = data
         adapter = context?.let { EditAdapter(it, data, this) }
-        binding.rv.layoutManager = LinearLayoutManager(context)
         binding.rv.adapter = adapter
     }
 
     override fun getDataWB(data: List<DataWBResponse>) {
         waitDialog.dismiss()
-        originalDataWB = ArrayList(data)
+        originalDataWB = data
         adapterWb = context?.let { EditAdapterForWb(it, data, this) }
-        binding.rv.layoutManager = LinearLayoutManager(context)
         binding.rv.adapter = adapterWb
     }
 
     override fun getLdu(lduList: List<Value>) {
-        TODO("Not yet implemented")
+        // Not yet implemented
     }
 
     override fun onClick(item: ArticlesResponse.Articuls) {
@@ -206,16 +190,23 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
             SPHelper.setSizeSyryo(item.kolVoSyrya)
         }
         SPHelper.setSrokGodnosti(item.srokGodnosti != null)
-        Log.d("SROK_DODOSTI", SPHelper.getSrokGodnosti().toString())
-
         SPHelper.setNameStuffWork(item.nazvanieTovara)
         SPHelper.setShkWork(item.shk)
 
         presenter.getPackingDataLDU()
 
-        (activity as StartActivity).replaceFragment(ChangeFragment.newInstance(SPHelper.getNameTask(), SPHelper.getArticuleWork(), SPHelper.getShkWork(), item.vlozhennost.toString(), item.palletNo.toString()), true)
-
-        // Здесь вы можете добавить код для замены фрагмента
+        (activity as StartActivity).replaceFragment(
+            ChangeFragment.newInstance(
+                item.nazvanieTovara.toString(),
+                SPHelper.getArticuleWork(),
+                item.mesto.toString(),
+                SPHelper.getShkWork(),
+                item.vlozhennost.toString(),
+                item.palletNo.toString(),
+                item.itogZakaz.toString()
+            ),
+            true
+        )
     }
 
     override fun onClick(item: DataWBResponse) {

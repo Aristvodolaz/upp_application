@@ -98,9 +98,8 @@ interface ApiService {
         @Body data: ChooseOpRequest
     ): Call<UniversalResponse>
 
-    @GET(Const.GET_LDU) fun taskData(
-        @Query("taskName") taskName: String,
-        @Query("artikul") artikul: Int
-    ): ChooseOpResponse
+    @GET(Const.GET_LDU) fun taskData(@Query("taskName") taskName: String, @Query("artikul") artikul: Int): ChooseOpResponse
 
+
+    @GET(Const.CHECK_WPS) suspend fun checkWps(@Query("name") taskName: String, @Query("shk") shk: String): UniversalResponse
 }

@@ -176,7 +176,7 @@ class InfoArticlePresenter(private var view: InfoArticleView) {
             .observeOn(AndroidSchedulers.mainThread()) // Обрабатываем результат на основном потоке
             .subscribe({ response ->
                 if (response.isSuccess) {
-                    view.successEndStatus()
+                    view.successEndSG()
                 } else {
                     view.errorMessage("Ошибка соединения, проверьте подключение.")
                 }

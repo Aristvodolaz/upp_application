@@ -16,7 +16,8 @@ import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.util.ScannerController
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.AddInformationView
-class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInformationView , ScannerController.ScannerCallback, ApproveShkDialog.OnSendNewShk{
+
+class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInformationView, ScannerController.ScannerCallback, ApproveShkDialog.OnSendNewShk {
 
     private var _binding: AddInformationFragmentBinding? = null
     private val binding get() = _binding!!
@@ -26,6 +27,7 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     private val scannerController by lazy {
         (requireActivity() as StartActivity).scannerController
     }
+
     companion object {
         fun newInstance(syryo: Boolean): AddInformationFragment = AddInformationFragment(syryo)
     }
@@ -38,39 +40,75 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
 
     private fun initViews() {
-        binding.notStandrtBtn.setOnClickListener {
-            binding.nestandartVlozhLiner.visibility = View.VISIBLE
-            isNonStandard = true
+        with(binding) {
+            notStandrtBtn.setOnClickListener {
+                nestandartVlozhLiner.visibility = View.VISIBLE
+                isNonStandard = true
+            }
+
+            setupInitialUI()
+
+            btnDone.setOnClickListener {
+                sendDataToService()
+            }
+
+            btn.setOnClickListener {
+                handleDuplicateRequest()
+            }
         }
+    }
 
-        binding.nameShk.text = "Шк товара: ${SPHelper.getShkWork()}"
-        binding.nameArticle.text = "Артикул товара: ${SPHelper.getArticuleWork()}"
-        binding.nameStuff.text = SPHelper.getNameStuffWork()
-        binding.size.text = "Количество товара: ${SPHelper.getItogZakaza()}"
+    private fun AddInformationFragmentBinding.setupInitialUI() {
+        nameShk.text = "Шк товара: ${SPHelper.getShkWork()}"
+        nameArticle.text = "Артикул товара: ${SPHelper.getArticuleWork()}"
+        nameStuff.text = SPHelper.getNameStuffWork()
+        size.text = "Количество товара: ${SPHelper.getItogZakaza()}"
 
-        if(syryo) {
-            binding.nameShk.visibility = View.GONE
-            binding.line.visibility = View.GONE
-            binding.scanLine.visibility = View.VISIBLE
-        } else{
-            binding.scanLine.visibility = View.GONE
-            binding.line.visibility = View.VISIBLE
+        if (syryo) {
+            nameShk.visibility = View.GONE
+            line.visibility = View.GONE
+            scanLine.visibility = View.VISIBLE
+        } else {
+            scanLine.visibility = View.GONE
+            line.visibility = View.VISIBLE
         }
+    }
 
-
-        binding.btnDone.setOnClickListener {
-//            handleDoneButtonClick()
-            sendDataToService()
-        }
-
-        binding.btn.setOnClickListener {
-//            handleAdditionalButtonClick()
+    private fun handleDuplicateRequest() {
+        if (areFieldsValidDop()) {
             showDialog()
             presenter.createDuplicate(
                 binding.mestoDopEt.text.toString(),
                 binding.vlozhennostDopEt.text.toString(),
                 binding.paletDopEt.text.toString()
             )
+        } else {
+            showErrorToast("Все поля должны быть заполнены!")
+        }
+    }
+
+    private fun sendDataToService() {
+        if (areFieldsValid()) {
+            showDialog()
+            presenter.sendFinishedInformation(
+                binding.mestoEt.text.toString(),
+                binding.vlozhennostEt.text.toString(),
+                binding.paletEt.text.toString()
+            )
+        } else {
+            showErrorToast("Все поля должны быть заполнены!")
+        }
+    }
+
+    private fun areFieldsValid(): Boolean {
+        with(binding) {
+            return mestoEt.text.isNotEmpty() && vlozhennostEt.text.isNotEmpty() && paletEt.text.isNotEmpty()
+        }
+    }
+
+    private fun areFieldsValidDop(): Boolean {
+        with(binding) {
+            return mestoDopEt.text.isNotEmpty() && vlozhennostDopEt.text.isNotEmpty() && paletDopEt.text.isNotEmpty()
         }
     }
 
@@ -80,21 +118,8 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
         fragmentManager?.let { waitDialog.show(it, WaitDialog.TAG) }
     }
 
-    private fun sendDataToService() {
-        showDialog()
-        presenter.sendFinishedInformation(
-            binding.mestoEt.text.toString(),
-            binding.vlozhennostEt.text.toString(),
-            binding.paletEt.text.toString()
-        )
-    }
-
-    private fun showErrorToast() {
-        Toast.makeText(
-            context,
-            "Указано неверное значение, проверьте количество!",
-            Toast.LENGTH_SHORT
-        ).show()
+    private fun showErrorToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun msgSuccess(msg: String) {
@@ -105,52 +130,79 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     override fun msgSuccessDuplicate(msg: String) {
         waitDialog.dismiss()
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-        binding.mestoDopEt.text.clear()
-        binding.paletDopEt.text.clear()
-        binding.vlozhennostDopEt.text.clear()
-        binding.nestandartVlozhLiner.visibility = View.GONE
+        clearDuplicateFields()
+    }
+
+    private fun clearDuplicateFields() {
+        with(binding) {
+            mestoDopEt.text.clear()
+            paletDopEt.text.clear()
+            vlozhennostDopEt.text.clear()
+            nestandartVlozhLiner.visibility = View.GONE
+        }
     }
 
     override fun errorMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        waitDialog.dismiss()
+        showErrorToast(msg)
     }
 
     override fun success() {
         binding.scanLine.visibility = View.GONE
         binding.line.visibility = View.VISIBLE
-        Toast.makeText(context, "Штрих код добавлен!", Toast.LENGTH_SHORT).show()
-
+        showErrorToast("Штрих код добавлен!")
     }
 
     override fun createNewShk(shk: String) {
         binding.scanLine.visibility = View.GONE
         binding.line.visibility = View.VISIBLE
-        Log.d(" NENNENENENE", "DJKDJKFJKL")
+        Log.d("BARCODE_RECEIVED", shk)
         val dialog = ApproveShkDialog.newInstance(shk, this)
         dialog.isCancelable = true
-        requireActivity().supportFragmentManager.let { dialog.show(it, "lol") }
+        requireActivity().supportFragmentManager.let { dialog.show(it, "ApproveShkDialog") }
     }
 
     override fun msgError(msg: String) {
         waitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        showErrorToast(msg)
     }
 
     override fun onResume() {
         super.onResume()
-        scannerController.resumeScanner()
+        resumeScanner()
     }
 
     override fun onPause() {
         super.onPause()
-        scannerController.releaseScanner()
+        releaseScanner()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        scannerController.releaseScanner()
-        _binding = null // Установите binding в null, чтобы избежать утечек памяти
+        releaseScanner()
+        _binding = null
     }
+
+    private fun resumeScanner() {
+        try {
+            scannerController.resumeScanner()
+            Log.d("AddInformationFragment", "Scanner resumed")
+        } catch (e: Exception) {
+            Log.e("AddInformationFragment", "Error resuming scanner: ${e.message}")
+            showErrorToast("Ошибка при возобновлении сканера: ${e.message}")
+        }
+    }
+
+    private fun releaseScanner() {
+        try {
+            scannerController.releaseScanner()
+            Log.d("AddInformationFragment", "Scanner released")
+        } catch (e: Exception) {
+            Log.e("AddInformationFragment", "Error releasing scanner: ${e.message}")
+            showErrorToast("Ошибка при отключении сканера: ${e.message}")
+        }
+    }
+
     override fun onDataReceived(barcodeData: String) {
         SPHelper.setShkWork(barcodeData)
         presenter.findInExcel(barcodeData, SPHelper.getNameTask())
@@ -158,12 +210,13 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
 
     override fun onScanFailed(errorMessage: String?) {
-        TODO("Not yet implemented")
+        Log.e("SCAN_FAILED", errorMessage ?: "Unknown error")
+        showErrorToast("Ошибка сканирования: ${errorMessage ?: "Unknown error"}")
     }
 
     override fun sendNewShk(shk: String?) {
-        if (shk != null) {
-            presenter.updateShk(shk)
+        shk?.let {
+            presenter.updateShk(it)
         }
     }
 }

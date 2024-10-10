@@ -14,6 +14,6 @@ data class Zapis(
     @SerializedName("Artikul") val artikul: Int,
     @SerializedName("Srok_Godnosti") val srokGodnosti: String,
     @SerializedName("SHK_WPS") val shkWps: String,
-    @SerializedName("Pallet_No") val palletNo: Int,
+    @SerializedName("Pallet_No") val palletNo: String,
     @SerializedName("Kolvo_Tovarov") val kolvoTovarov: Int
 )

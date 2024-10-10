@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Packer</string>
     <string name="please_wait">Пожалуйста подождите...</string>
+
+    <string-array name="cancel_reasons">
+        <item>Не соответствует СГ</item>
+        <item>Недостача</item>
+        <item>Недовложение</item>
+        <item>Брак</item>
+        <item>Вычерк склада</item>
+        <item>Излишек</item>
+        <item>Убрать из обработки(экстренно)</item>
+    </string-array>
+
 </resources>
+

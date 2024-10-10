@@ -2,6 +2,8 @@ package com.example.timetrekerforandroid.fragment.start
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +24,7 @@ import com.example.timetrekerforandroid.util.ScannerController
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.InfoArticleView
 
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -31,7 +34,7 @@ import java.util.Locale
 
 class InfoArticleFragment(private var name: String, private var article: String,
                           private var fullSize: String): Fragment(), InfoArticleView, ApproveShkDialog.OnSendNewShk,
-  ApproveSrokGodnostiDialog.OnSendApproveOnSrokGodnosti, ScannerController.ScannerCallback, CancelReasonDialog.OnCancelReasonSelected {
+    ApproveSrokGodnostiDialog.OnSendApproveOnSrokGodnosti, ScannerController.ScannerCallback, CancelReasonDialog.OnCancelReasonSelected {
 
     private var _binding: InfoArticleFragmentBinding? = null
     private val binding get() = _binding!!
@@ -39,9 +42,10 @@ class InfoArticleFragment(private var name: String, private var article: String,
     private lateinit var mWaitDialog: WaitDialog
     private var persent: String = ""
     private var date: String = ""
-    private val scannerController by lazy {
-        (requireActivity() as StartActivity).scannerController
-    }
+    private val scannerController by lazy { (requireActivity() as StartActivity).scannerController }
+    var buffer: Boolean = false
+    var buffer_two: Boolean = false
+
     companion object {
         fun newInstance(name: String, article: String, fullSize: String): InfoArticleFragment {
             return InfoArticleFragment(name, article, fullSize)
@@ -49,11 +53,11 @@ class InfoArticleFragment(private var name: String, private var article: String,
     }
 
     private fun showDialog() {
-        mWaitDialog = WaitDialog.newInstance()
-        mWaitDialog.isCancelable = false
+        mWaitDialog = WaitDialog.newInstance().apply { isCancelable = false }
         fragmentManager?.let { mWaitDialog.show(it, WaitDialog.TAG) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = InfoArticleFragmentBinding.inflate(inflater, container, false)
         initViews()
@@ -62,70 +66,107 @@ class InfoArticleFragment(private var name: String, private var article: String,
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initViews() {
-        binding.nameArticle.text = "Артикул товара: $article"
-        SPHelper.setArticuleWork(article)
-        binding.nameStuff.text = name
-        binding.itog.text = "Итог заказа: $fullSize"
+        with(binding) {
+            nameArticle.text = "Артикул товара: $article"
+            SPHelper.setArticuleWork(article)
+            nameStuff.text = name
+            itog.text = "Итог заказа: $fullSize"
 
-        presenter = InfoArticlePresenter(this)
+            presenter = InfoArticlePresenter(this@InfoArticleFragment)
 
-        binding.btnWork.setOnClickListener {
-            showDialog()
-            presenter.changeStatusTask(article, 1)
-            binding.btnWork.visibility = View.GONE
-            binding.btnClanced.visibility = View.VISIBLE
-            if((SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB") || SPHelper.getPrefics() == "OZON" || SPHelper.getPrefics() == "ЯМ")
-                binding.btnCheck.visibility = View.VISIBLE
-            else binding.btnCheck.visibility = View.GONE
+            btnWork.setOnClickListener {
+                showDialog()
+                presenter.changeStatusTask(article, 1)
+                btnWork.visibility = View.GONE
+                btnClanced.visibility = View.VISIBLE
+                btnCheck.visibility = if (shouldShowCheckButton()) View.VISIBLE else View.GONE
+            }
 
+            btnClanced.setOnClickListener {
+                val dialog = CancelReasonDialog.newInstance(this@InfoArticleFragment)
+                dialog.isCancelable = true
+                requireActivity().supportFragmentManager.let { dialog.show(it, "cancel_reason") }
+            }
+
+            if (shouldShowCheckButton()) {
+                srok.visibility = View.VISIBLE
+                scan.visibility = View.GONE
+                btnCheck.visibility = View.VISIBLE
+            } else {
+                srok.visibility = View.GONE
+                btnCheck.visibility = View.GONE
+                scan.visibility = View.VISIBLE
+            }
+
+            btnCheck.setOnClickListener { handleCheckButtonClick() }
+            lineSyrya.visibility = View.GONE
         }
+    }
 
-        binding.btnClanced.setOnClickListener{
-            val dialog = CancelReasonDialog.newInstance(this)
-            dialog.isCancelable = true
-            requireActivity().supportFragmentManager.let { dialog.show(it, "lol") }
+    private fun shouldShowCheckButton(): Boolean {
+        val prefics = SPHelper.getPrefics()
+        return (SPHelper.getSrokGodnosti() && prefics == "WB") || prefics in listOf("OZON", "ЯМ")
+    }
 
-        }
-
-        if ((SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB") || SPHelper.getPrefics() == "OZON" || SPHelper.getPrefics() == "ЯМ") {
-            var ttr =SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB";
-            Log.d("KKKKKKKK", ttr.toString() )
-            binding.srok.visibility = View.VISIBLE
-            binding.scan.visibility = View.GONE
-            binding.btnCheck.visibility = View.VISIBLE
-        } else {
-            binding.srok.visibility = View.GONE
-            binding.btnCheck.visibility =View.GONE
-            binding.scan.visibility = View.VISIBLE
-        }
-
-        binding.btnCheck.setOnClickListener {
-            if ((SPHelper.getSrokGodnosti() && SPHelper.getPrefics() == "WB") || SPHelper.getPrefics() == "OZON" || SPHelper.getPrefics() == "ЯМ") {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun handleCheckButtonClick() {
+        with(binding) {
+            if (shouldShowCheckButton()) {
                 when {
-                    binding.first.text.isNotEmpty() && binding.second.text.isNotEmpty() -> {
-                        firstAndLastDate(binding.first.text.toString(), binding.second.text.toString())
+                    first.text.isNotEmpty() && second.text.isNotEmpty() -> {
+                        if (areDatesValid(first.text.toString(), second.text.toString())) {
+                            firstAndLastDate(first.text.toString(), second.text.toString())
+                        } else {
+                            showInvalidDateFormatError()
+                        }
                     }
-                    binding.first.text.isNotEmpty() && binding.month.text.isNotEmpty() ->{
-                        calculateExpirationDate(binding.first.text.toString(), binding.month.text.toString().toInt())
+                    first.text.isNotEmpty() && month.text.isNotEmpty() -> {
+                        if (isValidDate(first.text.toString())) {
+                            calculateExpirationDate(first.text.toString(), month.text.toString().toInt())
+                        } else {
+                            showInvalidDateFormatError()
+                        }
                     }
-                    binding.first.text.isNotEmpty() -> {
-                        showDialog()
-                        presenter.searchArticleInDbForSG(article)
+                    first.text.isNotEmpty() -> {
+                        if (isValidDate(first.text.toString())) {
+                            showDialog()
+                            presenter.searchArticleInDbForSG(article)
+                        } else {
+                            showInvalidDateFormatError()
+                        }
                     }
-                    binding.second.text.isNotEmpty() -> {
-                        lastDate()
+                    second.text.isNotEmpty() -> {
+                        if (isValidDate(second.text.toString())) {
+                            lastDate()
+                        } else {
+                            showInvalidDateFormatError()
+                        }
                     }
                     else -> {
-                        Toast.makeText(context, "Введите дату срока годности", Toast.LENGTH_SHORT).show()
+                        showToast("Введите дату срока годности")
                     }
                 }
             } else {
-                Toast.makeText(context, "Срок годности не требуется для этого товара", Toast.LENGTH_SHORT).show()
+                showToast("Срок годности не требуется для этого товара")
             }
         }
+    }
 
+    private fun areDatesValid(vararg dates: String): Boolean {
+        return dates.all { isValidDate(it) }
+    }
 
-        binding.lineSyrya.visibility = View.GONE
+    private fun isValidDate(date: String): Boolean {
+        return try {
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).apply { isLenient = false }
+            dateFormat.parse(date) != null
+        } catch (e: ParseException) {
+            false
+        }
+    }
+
+    private fun showInvalidDateFormatError() {
+        showToast("Неверный формат даты. Используйте формат dd.MM.yyyy")
     }
 
     private fun lastDate() {
@@ -137,36 +178,32 @@ class InfoArticleFragment(private var name: String, private var article: String,
     private fun firstAndLastDate(first: String, second: String) {
         visableDialogApprove(checkDate(first, second))
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun calculateExpirationDate(firstDateInput: String, months: Int) {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        val firstDate = dateFormat.parse(firstDateInput) ?: return
-
         val expirationDate = LocalDate.parse(firstDateInput, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
             .plusMonths(months.toLong())
 
-        // Преобразуем в строку для отображения
         val secondDate = expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
         visableDialogApprove(checkDate(firstDateInput, secondDate))
     }
 
     private fun checkDate(first: String, second: String): String {
-
         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val firstDate: Date? = dateFormat.parse(first)
         val secondDate: Date? = dateFormat.parse(second)
         date = second
         val currentDate = Date()
 
+        val diffDays = (secondDate!!.time - firstDate!!.time) / (1000 * 60 * 60 * 24)
+        val pastInDays = (currentDate.time - firstDate.time) / (1000 * 60 * 60 * 24)
 
-        val diffInMillis = secondDate!!.time - firstDate!!.time
-        val diffDays = diffInMillis / (1000 * 60 * 60 * 24)
-        val pastInMillis = currentDate.time - firstDate.time
-        val pastInDays = pastInMillis / (1000 * 60 * 60 * 24)
+        val percentage = pastInDays.toDouble() / diffDays * 100
+        return String.format("%.2f%%", percentage)
+    }
 
-
-        val itog = pastInDays.toDouble() / diffDays * 100
-        return String.format("%.2f%%", itog)
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun getDataInfo(data: ArticlesResponse.Articuls) {
@@ -175,12 +212,12 @@ class InfoArticleFragment(private var name: String, private var article: String,
 
     override fun errorMessage(msg: String) {
         mWaitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        showToast(msg)
     }
 
     override fun successFindShk(msg: String) {
         mWaitDialog.dismiss()
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        showToast(msg)
     }
 
     override fun success() {
@@ -188,10 +225,10 @@ class InfoArticleFragment(private var name: String, private var article: String,
     }
 
     override fun createNewShk(shk: String) {
-        Log.d(" NENNENENENE", "DJKDJKFJKL")
+        Log.d("NENNENENENE", "DJKDJKFJKL")
         val dialog = ApproveShkDialog.newInstance(shk, this)
         dialog.isCancelable = true
-        requireActivity().supportFragmentManager.let { dialog.show(it, "lol") }
+        requireActivity().supportFragmentManager.let { dialog.show(it, "gggg") }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -201,34 +238,32 @@ class InfoArticleFragment(private var name: String, private var article: String,
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getPersent(days: Int): String{
+    private fun getPersent(days: Int): String {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val startDate = LocalDate.parse(binding.first.text.toString(), formatter)
         val currentDate = LocalDate.now()
         date = startDate.plusDays(days.toLong()).toString()
 
         val elapsedDays = ChronoUnit.DAYS.between(startDate, currentDate)
-
         val percentage = (elapsedDays.toDouble() / days.toDouble()) * 100
 
         return String.format("%.2f%%", percentage)
     }
 
-    fun visableDialogApprove(text: String){
+    private fun visableDialogApprove(text: String) {
         persent = text
         val dialog = ApproveSrokGodnostiDialog.newInstance(text, this)
         dialog.isCancelable = true
         requireActivity().supportFragmentManager.let { dialog.show(it, ApproveSrokGodnostiDialog.TAG) }
     }
 
+
+
     override fun writeLastDate() {
         mWaitDialog.dismiss()
         binding.first.text.clear()
-        Toast.makeText(context, "Введите последнюю дату", Toast.LENGTH_SHORT).show()
+        showToast("Введите последнюю дату")
     }
-
-
-
 
     override fun onResume() {
         super.onResume()
@@ -243,42 +278,53 @@ class InfoArticleFragment(private var name: String, private var article: String,
     override fun onDestroyView() {
         super.onDestroyView()
         scannerController.releaseScanner()
-        _binding = null // Установите binding в null, чтобы избежать утечек памяти
+        _binding = null
     }
 
-
     override fun sendApprove(approve: Boolean) {
-        if(approve){
+        if (approve) {
             Log.d("APPROVE", "TRUE")
             presenter.sendSrokGodnosti(date, persent)
-        }  else {
+        } else {
             Log.d("APPROVE", "FALSE")
             presenter.sendEndStatus()
         }
     }
 
     override fun successWriteSG() {
-//        mWaitDialog.dismiss()
-        Toast.makeText(context, "Срок годности успешно записан", Toast.LENGTH_SHORT).show()
-        binding.btnCheck.visibility = View.GONE
-        binding.srok.visibility = View.GONE
-        binding.scan.visibility = View.VISIBLE
+        showToast("Срок годности успешно записан")
+        with(binding) {
+            btnCheck.visibility = View.GONE
+            srok.visibility = View.GONE
+            scan.visibility = View.VISIBLE
+        }
     }
 
     override fun errorWriteSg() {
         mWaitDialog.dismiss()
-        Toast.makeText(context, "Ошибка соединения, повторите попытку", Toast.LENGTH_SHORT).show()
+        showToast("Ошибка соединения, повторите попытку")
     }
 
     override fun successEndStatus() {
         mWaitDialog.dismiss()
-//        (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+        if(!buffer_two){
+            if (buffer) {
+                buffer = false
+                presenter.sendEndStatus()
+            } else {
+                (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+            }
+        } else Toast.makeText(context, "Ваш комментарий записан, вы можете продолжить выкладку.", Toast.LENGTH_SHORT).show()
+
+    }
+
+    override fun successEndSG() {
+        mWaitDialog.dismiss()
+        (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
     }
 
     override fun sendNewShk(shk: String?) {
-        if (shk != null) {
-            presenter.updateShk(shk)
-        }
+        shk?.let { presenter.updateShk(it) }
     }
 
     override fun onDataReceived(barcodeData: String) {
@@ -288,12 +334,15 @@ class InfoArticleFragment(private var name: String, private var article: String,
     }
 
     override fun onScanFailed(errorMessage: String?) {
-        TODO("Not yet implemented")
+        // TODO: Implement error handling for scanner failure
     }
 
     override fun onReasonSelected(reason: String, comment: String) {
         presenter.cancelTask(reason, comment)
+        buffer_two == true
+        if(reason == "Убрать из обработки(экстренно)") {
+            buffer_two = false
+            buffer = true
+        }
     }
-
-
 }

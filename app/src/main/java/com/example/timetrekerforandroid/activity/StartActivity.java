@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.timetrekerforandroid.R;
 import com.example.timetrekerforandroid.fragment.AddInformationFragment;
 import com.example.timetrekerforandroid.fragment.AuthFragment;
+import com.example.timetrekerforandroid.fragment.ChooseSkladFragment;
 import com.example.timetrekerforandroid.fragment.StartFragment;
 import com.example.timetrekerforandroid.fragment.edit.EditForWbFragment;
 import com.example.timetrekerforandroid.fragment.navigation.MasterEditFragment;
@@ -125,7 +126,7 @@ public class StartActivity extends BaseActivity implements ScannerController.Sca
     public void updateBottomNavigationVisibility(){
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         Log.d("DDDDDD", String.valueOf(currentFragment));
-        if ((currentFragment instanceof AuthFragment) || (currentFragment instanceof StartFragment) || (currentFragment == null)) {
+        if ((currentFragment instanceof AuthFragment) || (currentFragment instanceof StartFragment) || (currentFragment == null) || (currentFragment instanceof ChooseSkladFragment)) {
             bottomNavigationView.setVisibility(View.GONE);
         } else {
             bottomNavigationView.setVisibility(View.VISIBLE);

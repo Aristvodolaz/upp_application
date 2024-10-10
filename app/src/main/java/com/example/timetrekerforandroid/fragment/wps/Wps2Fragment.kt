@@ -1,6 +1,5 @@
 package com.example.timetrekerforandroid.fragment.wps
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -107,13 +106,18 @@ class Wps2Fragment : Fragment(), ScannerController.ScannerCallback {
 
         // После сканирования паллета сохраняем данные
         val shkWork = SPHelper.getShkWork().orEmpty()
-        val shkPalleta = barcodeData.toIntOrNull() ?: 0
+        val shkPalleta = barcodeData
 
         Log.d("Wps2Fragment", "Передаем данные: shkWork = $shkWork, vlozhennost = $vlozhennost, shkPalleta = $shkPalleta")
 
         // Передача данных во ViewModel
-        wpsModel.addZapisWithWps(shkWork, vlozhennost, shkPalleta)
+        wpsModel.addZapisWithWps(shkWork, vlozhennost, shkPalleta.toString())
 
+        wpsModel.errorMessage.observe(this, Observer { errorMsg ->
+            errorMsg?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        })
 
         wpsModel.boxData.observe(viewLifecycleOwner, Observer { result ->
             result.onSuccess { response ->

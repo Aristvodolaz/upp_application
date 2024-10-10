@@ -40,6 +40,16 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:maxLines="1"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/coroba"
+                android:textColor="@color/white"
+                android:text="Количество товара: 5689741235647"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:maxLines="1"/>
         </LinearLayout>
 
         <!-- RecyclerView -->

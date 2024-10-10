@@ -1,147 +1,114 @@
-    package com.example.timetrekerforandroid.viewModel
+package com.example.timetrekerforandroid.viewModel
 
-    import android.util.Log
-    import androidx.lifecycle.LiveData
-    import androidx.lifecycle.MutableLiveData
-    import androidx.lifecycle.ViewModel
-    import androidx.lifecycle.viewModelScope
-    import com.example.timetrekerforandroid.model.WpsModel
-    import com.example.timetrekerforandroid.network.response.PrivyazkaResponse
-    import com.example.timetrekerforandroid.network.response.Sklads
-    import com.example.timetrekerforandroid.network.response.SkladsResponse
-    import com.example.timetrekerforandroid.network.response.Zapis
-    import kotlinx.coroutines.Dispatchers
-    import kotlinx.coroutines.launch
-    import kotlinx.coroutines.withContext
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.timetrekerforandroid.model.WpsModel
+import com.example.timetrekerforandroid.network.response.PrivyazkaResponse
+import com.example.timetrekerforandroid.network.response.Sklads
+import com.example.timetrekerforandroid.network.response.UniversalResponse
+import com.example.timetrekerforandroid.network.response.Zapis
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-    class WpsViewModel(private val model: WpsModel) : ViewModel() {
+class WpsViewModel(private val model: WpsModel) : ViewModel() {
 
-        private val _boxData = MutableLiveData<Result<PrivyazkaResponse>>()
-        val boxData: LiveData<Result<PrivyazkaResponse>> get() = _boxData
+    private val _boxData = MutableLiveData<Result<PrivyazkaResponse>>()
+    val boxData: LiveData<Result<PrivyazkaResponse>> get() = _boxData
 
-        private val _endData = MutableLiveData<Result<PrivyazkaResponse>>()
-        val endData: LiveData<Result<PrivyazkaResponse>> get() = _endData
+    private val _endData = MutableLiveData<Result<PrivyazkaResponse>>()
+    val endData: LiveData<Result<PrivyazkaResponse>> get() = _endData
 
-        private val _zapisData = MutableLiveData<Result<List<Zapis>>>()
-        val zapisData: LiveData<Result<List<Zapis>>> get() = _zapisData
+    private val _zapisData = MutableLiveData<Result<List<Zapis>>>()
+    val zapisData: LiveData<Result<List<Zapis>>> get() = _zapisData
 
-        private val _addData = MutableLiveData<Result<PrivyazkaResponse>>()
-        val addData: LiveData<Result<PrivyazkaResponse>> get() = _addData
+    private val _addData = MutableLiveData<Result<PrivyazkaResponse>>()
+    val addData: LiveData<Result<PrivyazkaResponse>> get() = _addData
 
-        private val _skladData = MutableLiveData<Result<List<Sklads>>>()
-        val skladData: LiveData<Result<List<Sklads>>> get() = _skladData
+    private val _skladData = MutableLiveData<Result<List<Sklads>>>()
+    val skladData: LiveData<Result<List<Sklads>>> get() = _skladData
 
+    private val _checkShk = MutableLiveData<Result<UniversalResponse>>()
+    val checkShk: LiveData<Result<UniversalResponse>> get() = _checkShk
 
-        // Метод добавления записи
-        fun addZapisWithWps(shkWps: String, kol_vo: Int, pallet: Int) {
+    // Добавляем LiveData для сообщений об ошибке
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
 
-            viewModelScope.launch {
-                try {
-                    val response = withContext(Dispatchers.IO) {
-                        model.addZapisWithWps(shkWps, kol_vo, pallet)
-                    }
-
-                    // Проверяем, если response успешный
-                    if (response.success) {
-                        val zapisList = response // Это уже может быть списком Zapis
-                        _boxData.value = Result.success(zapisList)
-                    } else {
-                        _boxData.value = Result.failure(Exception("Записи не найдены"))
-                    }
-                } catch (err: Exception) {
-                    Log.e("WpsViewModel", "Ошибка при получении данных: ${err.message}")
-                    _boxData.value = Result.failure(err)
-                }
-            }
-
+    private fun <T> handleResponse(response: T, liveData: MutableLiveData<Result<T>>, errorMessage: String) {
+        if (response is PrivyazkaResponse && !response.success) {
+            liveData.value = Result.failure(Exception(errorMessage))
+            _errorMessage.value = errorMessage // Отправляем сообщение об ошибке
+        } else {
+            liveData.value = Result.success(response)
         }
-
-
-        fun getListZapis() {
-            viewModelScope.launch {
-                try {
-                    val response = withContext(Dispatchers.IO) {
-                        model.getListZapis() // Ожидаем ZapisResponse вместо List<ZapisResponse>
-                    }
-
-                    // Проверяем, если response успешный
-                    if (response.success) {
-                        val zapisList = response.value // Это уже может быть списком Zapis
-                        _zapisData.value = Result.success(zapisList)
-                    } else {
-                        _zapisData.value = Result.failure(Exception("Записи не найдены"))
-                    }
-                } catch (err: Exception) {
-                    Log.e("WpsViewModel", "Ошибка при получении данных: ${err.message}")
-                    _zapisData.value = Result.failure(err)
-                }
-            }
-        }
-
-
-        fun endStatus() {
-            viewModelScope.launch {
-                try {
-                    val response = withContext(Dispatchers.IO) {
-                        model.endStatusWb()
-                    }
-
-                    // Проверяем, если response успешный
-                    if (response.success) {
-                        _endData.value = Result.success(response) // Передаем успешный результат
-                    } else {
-                        _endData.value = Result.failure(Exception("Записи не найдены"))
-                    }
-                } catch (err: Exception) {
-                    Log.e("WpsViewModel", "Ошибка при получении данных: ${err.message}")
-                    _endData.value = Result.failure(err) // Передаем ошибку
-                }
-            }
-        }
-
-
-        fun updateWps(kolvo: Int,pallet: String, shk: String) {
-
-            viewModelScope.launch {
-                try {
-                    val response = withContext(Dispatchers.IO) {
-                        model.updateStatus(pallet, kolvo, shk)
-                    }
-
-                    // Проверяем, если response успешный
-                    if (response.success) {
-                        val zapisList = response // Это уже может быть списком Zapis
-                        _addData.value = Result.success(zapisList)
-                    } else {
-                        _addData.value = Result.failure(Exception("Записи не найдены"))
-                    }
-                } catch (err: Exception) {
-                    Log.e("WpsViewModel", "Ошибка при получении данных: ${err.message}")
-                    _boxData.value = Result.failure(err)
-                }
-            }
-
-        }
-
-        fun getSklads() {
-            viewModelScope.launch {
-                try {
-                    val response = withContext(Dispatchers.IO) {
-                        model.getSklads() // Ожидаем ZapisResponse вместо List<ZapisResponse>
-                    }
-
-                    // Проверяем, если response успешный
-                    if (response.success) {
-                        val zapisList = response.value // Это уже может быть списком Zapis
-                        _skladData.value = Result.success(zapisList)
-                    } else {
-                        _skladData.value = Result.failure(Exception("Записи не найдены"))
-                    }
-                } catch (err: Exception) {
-                    Log.e("WpsViewModel", "Ошибка при получении данных: ${err.message}")
-                    _skladData.value = Result.failure(err)
-                }
-            }
-        }
-
     }
+
+    private fun launchDataLoad(block: suspend () -> Unit) {
+        viewModelScope.launch {
+            try {
+                block()
+            } catch (err: Exception) {
+                Log.e("WpsViewModel", "Ошибка при загрузке данных: ${err.message}")
+                _errorMessage.value = "Данный ШК уже был использован для этого задания"
+            }
+        }
+    }
+
+    fun addZapisWithWps(shkWps: String, kolVo: Int, pallet: String) {
+        launchDataLoad {
+            val response = withContext(Dispatchers.IO) {
+                model.addZapisWithWps(shkWps, kolVo, pallet)
+            }
+            handleResponse(response, _boxData, "Записи не найдены")
+        }
+    }
+
+    fun getListZapis() {
+        launchDataLoad {
+            val response = withContext(Dispatchers.IO) {
+                model.getListZapis()
+            }
+            handleResponse(response.value ?: emptyList(), _zapisData, "Записи не найдены")
+        }
+    }
+
+    fun endStatus() {
+        launchDataLoad {
+            val response = withContext(Dispatchers.IO) {
+                model.endStatusWb()
+            }
+            handleResponse(response, _endData, "Записи не найдены")
+        }
+    }
+
+    fun updateWps(kolVo: Int, pallet: String, shk: String) {
+        launchDataLoad {
+            val response = withContext(Dispatchers.IO) {
+                model.updateStatus(pallet, kolVo, shk)
+            }
+            handleResponse(response, _addData, "Записи не найдены")
+        }
+    }
+
+    fun getSklads() {
+        launchDataLoad {
+            val response = withContext(Dispatchers.IO) {
+                model.getSklads()
+            }
+            handleResponse(response.value ?: emptyList(), _skladData, "Записи не найдены")
+        }
+    }
+
+    fun checkWps(shk: String){
+        launchDataLoad {
+            val response = withContext(Dispatchers.IO){
+                model.checkWps(shk)
+            }
+            handleResponse(response,_checkShk,"Данный ШК ВПС уже используется в заказе!")
+        }
+    }
+}

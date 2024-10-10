@@ -37,6 +37,9 @@ class WpsAdapter(
         notifyDataSetChanged()
     }
 
+    fun getRecordCount(): Int {
+        return data.size
+    }
 
     inner class LabelHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
@@ -48,4 +51,3 @@ class WpsAdapter(
         }
     }
 }
-

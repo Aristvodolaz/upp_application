@@ -113,7 +113,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/articul_syrya"
+            android:id="@+id/artikul_syrya"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:layout_width="match_parent"
@@ -122,7 +122,7 @@
 
 
         <TextView
-            android:id="@+id/kolvo_syrya"
+            android:id="@+id/kolvo_surya"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:layout_width="match_parent"

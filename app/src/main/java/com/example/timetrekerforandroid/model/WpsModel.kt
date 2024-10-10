@@ -3,7 +3,6 @@ package com.example.timetrekerforandroid.model
 import com.example.timetrekerforandroid.network.ApiService
 import com.example.timetrekerforandroid.network.request.PrivyazkaRequest
 import com.example.timetrekerforandroid.network.request.SrokGodnostiRequest
-import com.example.timetrekerforandroid.network.response.DataWBResponse
 import com.example.timetrekerforandroid.network.response.PrivyazkaResponse
 import com.example.timetrekerforandroid.network.response.SkladsResponse
 import com.example.timetrekerforandroid.network.response.UniversalResponse
@@ -11,7 +10,7 @@ import com.example.timetrekerforandroid.network.response.ZapisResponse
 import com.example.timetrekerforandroid.util.SPHelper
 
 class WpsModel(private val apiService: ApiService) {
-    suspend fun addZapisWithWps(shkWps: String, kol_vo: Int, pallet: Int): PrivyazkaResponse {
+    suspend fun addZapisWithWps(shkWps: String, kol_vo: Int, pallet: String): PrivyazkaResponse {
         return apiService.addZapisInPrivyzka(PrivyazkaRequest(SPHelper.getNameTask(), SPHelper.getArticuleWork().toInt(),kol_vo, pallet, shkWps))
     }
 
@@ -33,6 +32,10 @@ class WpsModel(private val apiService: ApiService) {
 
     suspend fun getSklads(): SkladsResponse{
         return apiService.getSklads()
+    }
+
+    suspend fun  checkWps(shk: String): UniversalResponse{
+        return apiService.checkWps(SPHelper.getNameTask(), shk)
     }
 
 }

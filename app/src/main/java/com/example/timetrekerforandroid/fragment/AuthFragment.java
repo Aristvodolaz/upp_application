@@ -47,7 +47,6 @@ public class AuthFragment extends BaseFragment implements AuthView, ScannerContr
             // Удаление внешних символов
             String cleanedData = barcodeData.substring(1, barcodeData.length() - 1);
             presenter.getAuthUser(cleanedData);
-            Toast.makeText(getContext(), "Scanned Data: " + cleanedData, Toast.LENGTH_SHORT).show();
         });
     }
 
