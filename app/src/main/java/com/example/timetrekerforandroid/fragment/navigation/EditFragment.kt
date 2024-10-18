@@ -83,14 +83,16 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
         val lowerCaseText = text.lowercase(Locale.getDefault())
         if (SPHelper.getPrefics() == "WB") {
             adapterWb?.setFilterData(originalDataWB?.filter {
-                it.artikul.toString().contains(lowerCaseText) || it.shk.lowercase(Locale.getDefault()).contains(lowerCaseText)
+                it.artikul?.toString()?.contains(lowerCaseText) == true || it.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
             } ?: emptyList())
         } else {
             adapter?.setFilterData(originalData?.filter {
-                it.artikul.toString().contains(lowerCaseText) ||
+                it.artikul?.toString()?.contains(lowerCaseText) == true ||
                         it.artikulSyrya?.toString()?.contains(lowerCaseText) == true ||
                         it.nazvanieTovara?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
-                        it.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
+                        it.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true ||
+                        it.shkSyrya?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
+
             } ?: emptyList())
         }
     }
@@ -129,8 +131,8 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
         val lowerCaseText = text.lowercase(Locale.getDefault())
         if (SPHelper.getPrefics() == "WB") {
             adapterWb?.setFilterData(originalDataWB?.filter {
-                it.shk.lowercase(Locale.getDefault()).contains(lowerCaseText)||
-                        it.pallet.lowercase(Locale.getDefault()).contains(lowerCaseText)
+                it.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true||
+                        it.pallet?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
             } ?: emptyList())
         } else {
             adapter?.setFilterData(originalData?.filter {

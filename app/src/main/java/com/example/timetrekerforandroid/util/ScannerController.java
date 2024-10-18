@@ -9,6 +9,7 @@ import com.symbol.emdk.EMDKResults;
 import com.symbol.emdk.barcode.BarcodeManager;
 import com.symbol.emdk.barcode.ScanDataCollection;
 import com.symbol.emdk.barcode.Scanner;
+import com.symbol.emdk.barcode.ScannerConfig;
 import com.symbol.emdk.barcode.ScannerException;
 import com.symbol.emdk.barcode.ScannerResults;
 import com.symbol.emdk.barcode.StatusData;
@@ -69,6 +70,7 @@ public class ScannerController implements EMDKManager.EMDKListener, Scanner.Data
                     scanner.addStatusListener(this);
                     scanner.triggerType = Scanner.TriggerType.HARD;
                     scanner.enable();
+                    configureScanner();
                     isScannerInitialized = true;
                     Log.d(TAG, "Scanner initialized and enabled.");
                 } else {
@@ -87,11 +89,37 @@ public class ScannerController implements EMDKManager.EMDKListener, Scanner.Data
         }
     }
 
+    private void configureScanner() {
+        if (scanner != null) {
+            try {
+                ScannerConfig config = scanner.getConfig();
+
+                config.decoderParams.ean13.enabled = true;
+
+                config.decoderParams.code128.enabled = true;
+                config.decoderParams.code128.length1 = 1;
+                config.decoderParams.code128.length2 = 100;
+
+                config.decoderParams.code39.enabled = true;
+                config.decoderParams.code39.length1 = 1;
+                config.decoderParams.code39.length2 = 100;
+
+//                config.decoderParams.
+
+
+                config.decoderParams.upca.enabled = true;
+
+                scanner.setConfig(config);
+                Log.d(TAG, "Scanner configured for barcodes with length from 1 to 14 digits.");
+            } catch (ScannerException e) {
+                Log.e(TAG, "Error configuring scanner: " + e.getMessage());
+            }
+        }
+    }
+
     public boolean isScannerActive() {
         return scanner != null && scanner.isEnabled();
     }
-
-
 
     public void releaseScanner() {
         if (scanner != null) {

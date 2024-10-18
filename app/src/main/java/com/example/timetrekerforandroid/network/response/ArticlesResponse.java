@@ -43,6 +43,8 @@ public class ArticlesResponse {
 
         @SerializedName("SHK")
         private String shk;
+        @SerializedName("SHK_Syrya")
+        private String shkSyrya;
 
         @SerializedName("SHK_SPO")
         private String shkSpo;
@@ -496,6 +498,14 @@ public class ArticlesResponse {
 
         public void setOp468ProverkaShk(String op468ProverkaShk) {
             this.op468ProverkaShk = op468ProverkaShk;
+        }
+
+        public String getShkSyrya() {
+            return shkSyrya;
+        }
+
+        public void setShkSyrya(String shkSyrya) {
+            this.shkSyrya = shkSyrya;
         }
 
         public String getOp469SpetsifikatsiyaTm() {

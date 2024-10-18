@@ -71,8 +71,9 @@ class TasksFragment(private val name: String) : Fragment(), TasksView, ArtikulTa
                 val articulSyryaContains = data.artikulSyrya?.toString()?.contains(lowerCaseText) == true
                 val nameContains = data.nazvanieTovara?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
                 val nameSHK = data.shk?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
+                val nameSHKSyrya = data.shkSyrya?.lowercase(Locale.getDefault())?.contains(lowerCaseText) == true
 
-                if (articulContains || nameContains || articulSyryaContains || nameSHK) {
+                if (articulContains || nameContains || articulSyryaContains || nameSHK || nameSHKSyrya) {
                     filteredName.add(data)
                 }
             }
@@ -90,7 +91,9 @@ class TasksFragment(private val name: String) : Fragment(), TasksView, ArtikulTa
                 val articulContains = data.artikul?.toString()?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
                 val shkContains = data.shk?.toString()?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
                 val shkSpo1Contains = data.shkSpo1?.toString()?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
-                if (shkContains || shkSpo1Contains || articulContains) {
+                val nameSHKSyrya = data.shkSyrya?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
+
+                if (shkContains || shkSpo1Contains || articulContains || nameSHKSyrya) {
                     filteredName.add(data)
                 }
             }
