@@ -1,262 +1,258 @@
 [
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_switch_thumb_active.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\switch_thumb_active.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_solid_btn.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/solid_btn.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\font_roboto_regular.ttf.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\font\\roboto_regular.ttf"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_simple_spinner_item.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/simple_spinner_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_edit_for_wb_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\edit_for_wb_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_edit_for_wb_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/edit_for_wb_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_settings.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\settings.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_choose_op_item.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\choose_op_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_plus.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/plus.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_artikul_tasks_item.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/artikul_tasks_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xhdpi\\ic_launcher.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\font_roboto_medium.ttf.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\font\\roboto_medium.ttf"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_choose_op_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/choose_op_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_wps_two_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\wps_two_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_starts_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/starts_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_hello_fragment_two.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\hello_fragment_two.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_activity_main.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xxxhdpi\\ic_launcher.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/font_roboto_regular.ttf.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/font/roboto_regular.ttf"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_red_btn.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\red_btn.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_artikul_tasks_item.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\artikul_tasks_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/anim_splash_anim.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/anim/splash_anim.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_wps_one_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\wps_one_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_btn_add_not_standart.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/btn_add_not_standart.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_background_start_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\background_start_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_edit_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\edit_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_switch_thumb.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/switch_thumb.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_plus.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\plus.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_item_zapis.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/item_zapis.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_dialog_cancel_reson.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\dialog_cancel_reson.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_choose_op_item.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/choose_op_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_switch_thumb.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\switch_thumb.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_settings.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/settings.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_choose_sklad_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\choose_sklad_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_wps_one_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/wps_one_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_task_activity.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\task_activity.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_info_syryo_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/info_syryo_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_tasks_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\tasks_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_info_article_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/info_article_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_add_information_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\add_information_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/menu_bottom_nav_menu.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/menu/bottom_nav_menu.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_scan_activity.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\scan_activity.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_vector__1_.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/vector__1_.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_change_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\change_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_scan_shk_box_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/scan_shk_box_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_vector__1_.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\vector__1_.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_hello_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/hello_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_item_zapis.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\item_zapis.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_change_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/change_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_info_article_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\info_article_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_btn_downloads_stuf.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/btn_downloads_stuf.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_scan_shk_box_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\scan_shk_box_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/xml_backup_rules.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/xml/backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-anydpi-v26\\ic_launcher.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_articul_syrya_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/articul_syrya_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_starts_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\starts_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_wps_two_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/wps_two_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_simple_spinner_item.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\simple_spinner_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_pic_scan.png.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/pic_scan.png"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_solid_btn.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\solid_btn.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_start_activity.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/start_activity.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\activity_main.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\xml\\backup_rules.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_add_information_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/add_information_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_btn_downloads_stuf.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\btn_downloads_stuf.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_tasks_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/tasks_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_wps_onse_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\wps_onse_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_choose_sklad_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/choose_sklad_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_btn_add_not_standart.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\btn_add_not_standart.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-mdpi\\ic_launcher_round.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_name_file_item.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/name_file_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_pic_scan.png.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\pic_scan.png"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_manu.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/manu.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_start_activity.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\start_activity.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\menu_bottom_nav_menu.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\menu\\bottom_nav_menu.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/font_roboto_medium.ttf.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/font/roboto_medium.ttf"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_edit_light.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\edit_light.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_ph_package.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/ph_package.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_switch_thumb_inactive.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\switch_thumb_inactive.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\anim_splash_anim.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\anim\\splash_anim.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_wps_onse_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/wps_onse_fragment.xml"
     },
     {
         "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_dialog_cancel_reson.xml.flat",
         "source": "com.example.timetrekerforandroid.app-main-71:/layout/dialog_cancel_reson.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-hdpi\\ic_launcher_round.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_start_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/start_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_information_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\information_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_choose_op_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\choose_op_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_information_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/information_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_articul_syrya_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\articul_syrya_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_manu.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\manu.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_task_activity.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/task_activity.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-mdpi\\ic_launcher.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_edit_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/edit_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_start_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\start_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-hdpi\\ic_launcher.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_switch_thumb_inactive.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/switch_thumb_inactive.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_name_file_item.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\name_file_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_hello_fragment_two.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/hello_fragment_two.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\xml\\data_extraction_rules.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/layout_scan_activity.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/scan_activity.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_info_syryo_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\info_syryo_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_red_btn.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/red_btn.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\ic_launcher_background.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_background_start_fragment.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/background_start_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\layout_hello_fragment.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\hello_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_edit_light.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/edit_light.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\drawable_ph_package.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\drawable\\ph_package.xml"
-    },
-    {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-merged_res-69:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.timetrekerforandroid.app-merged_res-69:/drawable_switch_thumb_active.xml.flat",
+        "source": "com.example.timetrekerforandroid.app-main-71:/drawable/switch_thumb_active.xml"
     }
 ]

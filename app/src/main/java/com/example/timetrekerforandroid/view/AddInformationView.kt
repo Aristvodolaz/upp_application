@@ -7,4 +7,7 @@ interface AddInformationView {
     fun errorMessage(msg: String)
     fun success()
     fun createNewShk(shk: String);
+    fun successEndStatus()
+    fun successEndSG()
+    fun successGoToPacking()
 }

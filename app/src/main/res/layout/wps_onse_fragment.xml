@@ -96,6 +96,18 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="Закрыть задание"
                 android:layout_height="48dp"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="16dp"
+                android:id="@+id/btn_clanced"
+                android:layout_marginRight="16dp"
+                android:text="Исключить артикул из обработки"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@drawable/red_btn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
 
         <!-- Скрытый элемент с инструкцией по сканированию -->

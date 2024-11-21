@@ -34,6 +34,7 @@ class WpsViewModel(private val model: WpsModel) : ViewModel() {
     private val _checkShk = MutableLiveData<Result<UniversalResponse>>()
     val checkShk: LiveData<Result<UniversalResponse>> get() = _checkShk
 
+
     // Добавляем LiveData для сообщений об ошибке
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
@@ -111,4 +112,5 @@ class WpsViewModel(private val model: WpsModel) : ViewModel() {
             handleResponse(response,_checkShk,"Данный ШК ВПС уже используется в заказе!")
         }
     }
+
 }

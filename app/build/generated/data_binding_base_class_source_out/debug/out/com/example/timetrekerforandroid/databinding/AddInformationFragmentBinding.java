@@ -27,6 +27,9 @@ public final class AddInformationFragmentBinding implements ViewBinding {
   public final AppCompatButton btn;
 
   @NonNull
+  public final AppCompatButton btnClanced;
+
+  @NonNull
   public final AppCompatButton btnDone;
 
   @NonNull
@@ -72,14 +75,15 @@ public final class AddInformationFragmentBinding implements ViewBinding {
   public final EditText vlozhennostEt;
 
   private AddInformationFragmentBinding(@NonNull ScrollView rootView, @NonNull AppCompatButton btn,
-      @NonNull AppCompatButton btnDone, @NonNull LinearLayout line, @NonNull EditText mestoDopEt,
-      @NonNull EditText mestoEt, @NonNull TextView nameArticle, @NonNull TextView nameShk,
-      @NonNull TextView nameStuff, @NonNull LinearLayout nestandartVlozhLiner,
-      @NonNull FrameLayout notStandrtBtn, @NonNull EditText paletDopEt, @NonNull EditText paletEt,
-      @NonNull LinearLayout scanLine, @NonNull TextView size, @NonNull EditText vlozhennostDopEt,
-      @NonNull EditText vlozhennostEt) {
+      @NonNull AppCompatButton btnClanced, @NonNull AppCompatButton btnDone,
+      @NonNull LinearLayout line, @NonNull EditText mestoDopEt, @NonNull EditText mestoEt,
+      @NonNull TextView nameArticle, @NonNull TextView nameShk, @NonNull TextView nameStuff,
+      @NonNull LinearLayout nestandartVlozhLiner, @NonNull FrameLayout notStandrtBtn,
+      @NonNull EditText paletDopEt, @NonNull EditText paletEt, @NonNull LinearLayout scanLine,
+      @NonNull TextView size, @NonNull EditText vlozhennostDopEt, @NonNull EditText vlozhennostEt) {
     this.rootView = rootView;
     this.btn = btn;
+    this.btnClanced = btnClanced;
     this.btnDone = btnDone;
     this.line = line;
     this.mestoDopEt = mestoDopEt;
@@ -127,6 +131,12 @@ public final class AddInformationFragmentBinding implements ViewBinding {
       id = R.id.btn;
       AppCompatButton btn = ViewBindings.findChildViewById(rootView, id);
       if (btn == null) {
+        break missingId;
+      }
+
+      id = R.id.btn_clanced;
+      AppCompatButton btnClanced = ViewBindings.findChildViewById(rootView, id);
+      if (btnClanced == null) {
         break missingId;
       }
 
@@ -220,9 +230,9 @@ public final class AddInformationFragmentBinding implements ViewBinding {
         break missingId;
       }
 
-      return new AddInformationFragmentBinding((ScrollView) rootView, btn, btnDone, line,
-          mestoDopEt, mestoEt, nameArticle, nameShk, nameStuff, nestandartVlozhLiner, notStandrtBtn,
-          paletDopEt, paletEt, scanLine, size, vlozhennostDopEt, vlozhennostEt);
+      return new AddInformationFragmentBinding((ScrollView) rootView, btn, btnClanced, btnDone,
+          line, mestoDopEt, mestoEt, nameArticle, nameShk, nameStuff, nestandartVlozhLiner,
+          notStandrtBtn, paletDopEt, paletEt, scanLine, size, vlozhennostDopEt, vlozhennostEt);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

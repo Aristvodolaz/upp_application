@@ -12,21 +12,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timetrekerforandroid.activity.StartActivity
 import com.example.timetrekerforandroid.adapter.WpsAdapter
 import com.example.timetrekerforandroid.databinding.WpsOnseFragmentBinding
+import com.example.timetrekerforandroid.dialog.CancelReasonDialog
+import com.example.timetrekerforandroid.factory.TaskWpsModelFactory
 import com.example.timetrekerforandroid.factory.WpsModelFactory
 import com.example.timetrekerforandroid.fragment.navigation.PakingFragment
+import com.example.timetrekerforandroid.fragment.navigation.TasksFragment
+import com.example.timetrekerforandroid.model.TaskModel
+import com.example.timetrekerforandroid.model.TaskWpsModel
 import com.example.timetrekerforandroid.model.WpsModel
 import com.example.timetrekerforandroid.network.ServiceViewModule
 import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.util.ScannerController
+import com.example.timetrekerforandroid.util.WaitDialog
+import com.example.timetrekerforandroid.viewModel.TaskWpsViewModel
 import com.example.timetrekerforandroid.viewModel.WpsViewModel
 
-class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
+class Wps1Fragment : Fragment(), ScannerController.ScannerCallback, CancelReasonDialog.OnCancelReasonSelected {
 
     private var _binding: WpsOnseFragmentBinding? = null
     private val binding get() = _binding!!
     private var adapter: WpsAdapter? = null
     private lateinit var wpsModel: WpsViewModel
+    private lateinit var taskModel: TaskWpsViewModel
+    private lateinit var mWaitDialog: WaitDialog
 
+    private var isEmergencyCancel: Boolean = false
     private val scannerController by lazy { (requireActivity() as StartActivity).getScannerController() }
 
     companion object {
@@ -50,6 +60,11 @@ class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
             WpsModelFactory(WpsModel(ServiceViewModule.getService()))
         )[WpsViewModel::class.java]
 
+        taskModel = ViewModelProvider(
+            this,
+            TaskWpsModelFactory(TaskWpsModel(ServiceViewModule.getService()))
+        )[TaskWpsViewModel::class.java]
+
         setupRecyclerView()
         setupObservers()
         setupListeners()
@@ -58,6 +73,8 @@ class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
     private fun setupRecyclerView() {
         binding.rv.layoutManager = LinearLayoutManager(context)
     }
+
+
 
     private fun setupObservers() {
         wpsModel.getListZapis()
@@ -98,11 +115,33 @@ class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
             }
 
         }
-    }
 
+        taskModel.cancelTaskResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { handleCancelTaskResult() }
+                .onFailure { error -> showToast(error.message ?: "Неизвестная ошибка") }
+        }
+
+
+        taskModel.endStatusResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Log.d("Wps1Fragment", "sendEndStatus завершился успешно.")
+                navigateToPackingFragment()
+            }.onFailure { error ->
+                Log.e("Wps1Fragment", "Ошибка в sendEndStatus: ${error.message}")
+                showToast(error.message ?: "Неизвестная ошибка при завершении задачи.")
+            }
+        }
+
+
+    }
     private fun setupListeners() {
         binding.btnDone.setOnClickListener {
             wpsModel.endStatus()
+        }
+        binding.btnClanced.setOnClickListener {
+            val dialog = CancelReasonDialog.newInstance(this@Wps1Fragment)
+            dialog.isCancelable = true
+            dialog.show(requireActivity().supportFragmentManager, "cancel_reason")
         }
 
         binding.btnAdd.setOnClickListener {
@@ -116,6 +155,32 @@ class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
         binding.nameShk.text = "Итог заказа: ${SPHelper.getSizeTovara()}"
     }
 
+
+    // Обработка завершения отмены задачи
+    private fun handleCancelTaskResult() {
+        if (isEmergencyCancel) {
+            isEmergencyCancel = false
+            taskModel.sendEndStatus()
+        } else {
+            showToast("Ваш комментарий записан, вы можете продолжить выкладку.")
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToFragment(fragment: Fragment, addToBackStack: Boolean) {
+        (activity as StartActivity).replaceFragment(fragment, addToBackStack)
+    }
+
+    private fun navigateToTasksFragment() {
+        navigateToFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+    }
+    private fun navigateToPackingFragment() {
+        navigateToFragment(PakingFragment.newInstance(), false)
+    }
+
     override fun onDataReceived(barcodeData: String?) {
         barcodeData?.let {
             SPHelper.setShkWork(it)
@@ -124,7 +189,7 @@ class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
     }
 
     override fun onScanFailed(errorMessage: String?) {
-        Toast.makeText(context, errorMessage ?: "Сканирование не удалось", Toast.LENGTH_SHORT).show()
+        showToast(errorMessage ?: "Сканирование не удалось")
     }
 
     override fun onResume() {
@@ -141,5 +206,10 @@ class Wps1Fragment : Fragment(), ScannerController.ScannerCallback {
         super.onDestroyView()
         scannerController.releaseScanner()
         _binding = null
+    }
+
+    override fun onReasonSelected(reason: String, comment: String) {
+        isEmergencyCancel = reason == "Убрать из обработки(экстренно)"
+        taskModel.cancelTask(reason, comment)
     }
 }

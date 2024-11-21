@@ -1,5 +1,6 @@
 package com.example.timetrekerforandroid.presenter
 
+import android.util.Log
 import com.example.timetrekerforandroid.model.ScanModel
 import com.example.timetrekerforandroid.model.TaskModel
 import com.example.timetrekerforandroid.network.response.ArticlesResponse
@@ -8,8 +9,13 @@ import com.example.timetrekerforandroid.network.response.ShkInDbResponse
 import com.example.timetrekerforandroid.network.response.UniversalResponse
 import com.example.timetrekerforandroid.util.SPHelper
 import com.example.timetrekerforandroid.view.AddInformationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 class AddInformationPresenter(private var view: AddInformationView) {
     private var model = TaskModel()
@@ -118,4 +124,37 @@ class AddInformationPresenter(private var view: AddInformationView) {
             })
     }
 
+
+    fun cancelTask(reason: String, comment: String) {
+
+        model.calncelTaskNorm(reason, comment)
+            .subscribeOn(Schedulers.io()) // Выполняем запрос в фоновом потоке
+            .observeOn(AndroidSchedulers.mainThread()) // Обрабатываем результат на основном потоке
+            .subscribe ({ response ->
+                // Обработка ответа
+                if (response.isSuccess) {
+                    view.successEndStatus()
+                } else {
+                    view.errorMessage("Ошибка соединения, повторите попытку")
+                }
+            },  {
+                view.errorMessage("Ошибка соединения, проверьте подключение.")
+        })
+    }
+
+    fun sendEndStatus(){
+        model.endStatus()
+            .subscribeOn(Schedulers.io()) // Выполняем запрос в фоновом потоке
+            .observeOn(AndroidSchedulers.mainThread()) // Обрабатываем результат на основном потоке
+            .subscribe({ response ->
+                if (response.isSuccess) {
+                    view.successGoToPacking()
+                } else {
+                    view.errorMessage("Ошибка соединения, проверьте подключение.")
+                }
+            }, { error ->
+                Log.d("FFFFFF", error.localizedMessage)
+                view.errorMessage("Ошибка соединения, проверьте подключение.")
+            })
+    }
 }

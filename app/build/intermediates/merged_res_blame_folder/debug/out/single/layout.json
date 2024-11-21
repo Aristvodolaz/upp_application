@@ -1,122 +1,118 @@
 [
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\change_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\change_fragment.xml"
-    },
-    {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\hello_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\hello_fragment.xml"
-    },
-    {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\articul_syrya_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\articul_syrya_fragment.xml"
-    },
-    {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\tasks_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\tasks_fragment.xml"
-    },
-    {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\starts_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\starts_fragment.xml"
-    },
-    {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\start_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\start_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/edit_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/edit_fragment.xml"
     },
     {
         "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/dialog_cancel_reson.xml",
         "source": "com.example.timetrekerforandroid.app-main-71:/layout/dialog_cancel_reson.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\choose_op_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\choose_op_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/articul_syrya_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/articul_syrya_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\item_zapis.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\item_zapis.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/scan_activity.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/scan_activity.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\name_file_item.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\name_file_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/artikul_tasks_item.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/artikul_tasks_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\info_syryo_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\info_syryo_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/wps_onse_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/wps_onse_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\information_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\information_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/choose_op_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/choose_op_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\activity_main.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\activity_main.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/name_file_item.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/name_file_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\artikul_tasks_item.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\artikul_tasks_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/starts_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/starts_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\simple_spinner_item.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\simple_spinner_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/info_article_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/info_article_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\info_article_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\info_article_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/wps_two_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/wps_two_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\wps_one_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\wps_one_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/info_syryo_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/info_syryo_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\start_activity.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\start_activity.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/hello_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/hello_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\task_activity.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\task_activity.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/task_activity.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/task_activity.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\dialog_cancel_reson.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\dialog_cancel_reson.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/simple_spinner_item.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/simple_spinner_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\scan_activity.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\scan_activity.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/information_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/information_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\wps_two_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\wps_two_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/scan_shk_box_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/scan_shk_box_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\hello_fragment_two.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\hello_fragment_two.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/add_information_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/add_information_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\edit_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\edit_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/start_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/start_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\choose_op_item.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\choose_op_item.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/activity_main.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\wps_onse_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\wps_onse_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/choose_op_item.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/choose_op_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\edit_for_wb_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\edit_for_wb_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/edit_for_wb_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/edit_for_wb_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\scan_shk_box_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\scan_shk_box_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/tasks_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/tasks_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\add_information_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\add_information_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/hello_fragment_two.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/hello_fragment_two.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-mergeDebugResources-68:\\layout\\choose_sklad_fragment.xml",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\7.5\\com.example.timetrekerforandroid.app-main-71:\\layout\\choose_sklad_fragment.xml"
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/wps_one_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/wps_one_fragment.xml"
+    },
+    {
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/change_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/change_fragment.xml"
+    },
+    {
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/item_zapis.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/item_zapis.xml"
+    },
+    {
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/start_activity.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/start_activity.xml"
+    },
+    {
+        "merged": "com.example.timetrekerforandroid.app-mergeDebugResources-68:/layout/choose_sklad_fragment.xml",
+        "source": "com.example.timetrekerforandroid.app-main-71:/layout/choose_sklad_fragment.xml"
     }
 ]

@@ -40,6 +40,7 @@ interface ApiService {
     @GET(Const.GET_NAME_FOR_WAIT) fun getDataInWait(@Query ("host")  host: String, @Query("port") port: Int, @Query("username") username: String, @Query("password") password: String): Observable<NameFilesInWaitResponse>
     @GET(Const.GET_NAME_FOR_WORK) suspend fun getDataInWork(@Query("sk") sk: String): DBNameResponse
     @POST(Const.CANCEL_TASK) suspend  fun cancelTask(@Query("taskName") name: String, @Query("articul") articule: Int, @Query("comment") comment: String, @Query("reason") reason: String): UniversalResponse
+    @POST(Const.CANCEL_TASK)   fun cancelTaskNorm(@Query("taskName") name: String, @Query("articul") articule: Int, @Query("comment") comment: String, @Query("reason") reason: String): Observable<UniversalResponse>
 
     @GET(Const.TASKS_WORK) fun getTasksInWorkFull(@Query("taskNumber") taskName: String): Observable<ArticlesResponse>
 
@@ -102,4 +103,6 @@ interface ApiService {
 
 
     @GET(Const.CHECK_WPS) suspend fun checkWps(@Query("name") taskName: String, @Query("shk") shk: String): UniversalResponse
+    @PUT(Const.END_STATUS) suspend fun endStatusForViewModel(@Body data: EndStatusRequest): UniversalResponse
+
 }

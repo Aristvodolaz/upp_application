@@ -92,4 +92,12 @@ class TaskModel: BaseDataProvider() {
     fun getTaskData(): Observable<ChooseOpResponse> {
         return service.getLDU(SPHelper.getArticuleWork().toInt(),SPHelper.getNameTask())
     }
+
+    suspend fun endStatusForViewModel(): UniversalResponse{
+        return service.endStatusForViewModel(EndStatusRequest(SPHelper.getNameTask(), SPHelper.getArticuleWork(), 2, getTime(), SPHelper.getNameEmployer(), 1))
+    }
+
+     fun calncelTaskNorm(reason: String, comment: String): Observable<UniversalResponse>{
+        return  service.cancelTaskNorm(SPHelper.getNameTask(), SPHelper.getArticuleWork().toInt(), comment, reason).compose(applySchedulers())
+    }
 }

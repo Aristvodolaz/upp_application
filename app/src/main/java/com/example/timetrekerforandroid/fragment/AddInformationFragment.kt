@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import com.example.timetrekerforandroid.activity.StartActivity
 import com.example.timetrekerforandroid.databinding.AddInformationFragmentBinding
 import com.example.timetrekerforandroid.dialog.ApproveShkDialog
+import com.example.timetrekerforandroid.dialog.CancelReasonDialog
+import com.example.timetrekerforandroid.fragment.navigation.PakingFragment
 import com.example.timetrekerforandroid.fragment.navigation.TasksFragment
 import com.example.timetrekerforandroid.presenter.AddInformationPresenter
 import com.example.timetrekerforandroid.util.SPHelper
@@ -17,7 +19,8 @@ import com.example.timetrekerforandroid.util.ScannerController
 import com.example.timetrekerforandroid.util.WaitDialog
 import com.example.timetrekerforandroid.view.AddInformationView
 
-class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInformationView, ScannerController.ScannerCallback, ApproveShkDialog.OnSendNewShk {
+class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInformationView, ScannerController.ScannerCallback,
+    ApproveShkDialog.OnSendNewShk , CancelReasonDialog.OnCancelReasonSelected{
 
     private var _binding: AddInformationFragmentBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +30,9 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     private val scannerController by lazy {
         (requireActivity() as StartActivity).scannerController
     }
+    var buffer: Boolean = false
+    var buffer_two: Boolean = false
+    private lateinit var mWaitDialog: WaitDialog
 
     companion object {
         fun newInstance(syryo: Boolean): AddInformationFragment = AddInformationFragment(syryo)
@@ -54,6 +60,12 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
 
             btn.setOnClickListener {
                 handleDuplicateRequest()
+            }
+
+            btnClanced.setOnClickListener {
+                val dialog = CancelReasonDialog.newInstance(this@AddInformationFragment)
+                dialog.isCancelable = true
+                requireActivity().supportFragmentManager.let { dialog.show(it, "cancel_reason") }
             }
         }
     }
@@ -86,7 +98,25 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
             showErrorToast("Все поля должны быть заполнены!")
         }
     }
+    override fun successEndStatus() {
+        if(!buffer_two){
+            if (buffer) {
+                buffer = false
+                presenter.sendEndStatus()
+            } else {
+                (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+            }
+        } else Toast.makeText(context, "Ваш комментарий записан, вы можете продолжить выкладку.", Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun successEndSG() {
+        (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
+    }
+
+    override fun successGoToPacking() {
+        (activity as StartActivity).replaceFragment(PakingFragment.newInstance(), false)
+    }
     private fun sendDataToService() {
         if (areFieldsValid()) {
             showDialog()
@@ -128,7 +158,6 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
 
     override fun msgSuccessDuplicate(msg: String) {
-        waitDialog.dismiss()
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         clearDuplicateFields()
     }
@@ -143,7 +172,6 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
 
     override fun errorMessage(msg: String) {
-        waitDialog.dismiss()
         showErrorToast(msg)
     }
 
@@ -163,7 +191,6 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
 
     override fun msgError(msg: String) {
-        waitDialog.dismiss()
         showErrorToast(msg)
     }
 
@@ -217,6 +244,15 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     override fun sendNewShk(shk: String?) {
         shk?.let {
             presenter.updateShk(it)
+        }
+    }
+
+    override fun onReasonSelected(reason: String, comment: String) {
+        presenter.cancelTask(reason, comment)
+        buffer_two = true
+        if(reason == "Убрать из обработки(экстренно)") {
+            buffer = true
+            buffer_two = false
         }
     }
 }

@@ -19,15 +19,15 @@ public class Const {
     public static final String SEARCH_SHK = "/market/tasks/searchShk";
     public static final String SEARCH_ARTIKUL_TASKS = "/market/tasks/searchArticulTask";
     public static final String UPDATE_STATUS = "/market/tasks/updateStatus";
-    public static final String END_STATUS = "market/tasks/endStatus";
-    public static final String SET_STATUS = "market/tasks/setStatus";
+    public static final String END_STATUS = "/market/tasks/endStatus";
+    public static final String SET_STATUS = "/market/tasks/setStatus";
     public static final String SEND_SROK = "/srok";
     public static final String GET_LDU = "market/tasks/getLDU";
 
     //todo обновить значение для заданий
     public static final String UPDATE_CHECK_BOX = "/market/tasks/updateTasks";
     public static final String GET_TASK_WITH_STATUS = "/market/tasks/getDataWithStatus";
-    public static final String CHANGE_OP = "market/tasks/updateShkStat";
+    public static final String CHANGE_OP = "/market/tasks/updateShkStat";
 
     //todo для закрытия работы с артикулом
     public static final String FINISHED_REQUEST = "/send/update";

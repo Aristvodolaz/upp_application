@@ -2,11 +2,9 @@
 <resources>
     <string-array name="cancel_reasons">
         <item>Не соответствует СГ</item>
-        <item>Недостача</item>
-        <item>Недовложение</item>
         <item>Брак</item>
+        <item>Недопоставка</item>
         <item>Вычерк склада</item>
-        <item>Излишек</item>
         <item>Убрать из обработки(экстренно)</item>
     </string-array>
     <color name="black">#FF000000</color>
