@@ -88,7 +88,6 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
 
     private fun handleDuplicateRequest() {
         if (areFieldsValidDop()) {
-            showDialog()
             presenter.createDuplicate(
                 binding.mestoDopEt.text.toString(),
                 binding.vlozhennostDopEt.text.toString(),
@@ -119,7 +118,6 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
     private fun sendDataToService() {
         if (areFieldsValid()) {
-            showDialog()
             presenter.sendFinishedInformation(
                 binding.mestoEt.text.toString(),
                 binding.vlozhennostEt.text.toString(),
@@ -153,7 +151,6 @@ class AddInformationFragment(private var syryo: Boolean) : Fragment(), AddInform
     }
 
     override fun msgSuccess(msg: String) {
-        waitDialog.dismiss()
         (activity as StartActivity).replaceFragment(TasksFragment.newInstance(SPHelper.getNameTask()), false)
     }
 

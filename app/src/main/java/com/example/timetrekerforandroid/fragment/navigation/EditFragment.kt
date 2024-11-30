@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.timetrekerforandroid.activity.StartActivity
 import com.example.timetrekerforandroid.adapter.navigation.EditAdapter
 import com.example.timetrekerforandroid.adapter.navigation.EditAdapterForWb
@@ -77,6 +78,8 @@ class EditFragment : Fragment(), ScannerController.ScannerCallback, EditView, Ed
 
     private fun setupRecyclerView() {
         binding.rv.layoutManager = LinearLayoutManager(context)
+        binding.rv.layoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT
+
     }
 
     private fun filter(text: String) {

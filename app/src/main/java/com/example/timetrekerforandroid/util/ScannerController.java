@@ -94,20 +94,18 @@ public class ScannerController implements EMDKManager.EMDKListener, Scanner.Data
             try {
                 ScannerConfig config = scanner.getConfig();
 
-                config.decoderParams.ean13.enabled = true;
+                config.decoderParams.i2of5.enabled = true;
+                config.decoderParams.i2of5.length1 = 0; // Минимальная длина не ограничена
+                config.decoderParams.i2of5.length2 = 0; // Максимальная длина не ограничена
 
-                config.decoderParams.code128.enabled = true;
-                config.decoderParams.code128.length1 = 1;
-                config.decoderParams.code128.length2 = 100;
-
-                config.decoderParams.code39.enabled = true;
-                config.decoderParams.code39.length1 = 1;
-                config.decoderParams.code39.length2 = 100;
+                config.decoderParams.ean13.enabled = false;
+                config.decoderParams.upca.enabled = false;
+                config.decoderParams.code128.enabled = false;
+                config.decoderParams.code39.enabled = false;
 
 //                config.decoderParams.
 
 
-                config.decoderParams.upca.enabled = true;
 
                 scanner.setConfig(config);
                 Log.d(TAG, "Scanner configured for barcodes with length from 1 to 14 digits.");
@@ -156,9 +154,10 @@ public class ScannerController implements EMDKManager.EMDKListener, Scanner.Data
     @Override
     public void onStatus(StatusData statusData) {
         if (statusData != null) {
+            Log.d(TAG, "Scanner status: " + statusData.getState());
             switch (statusData.getState()) {
                 case IDLE:
-                    Log.d(TAG, "Scanner is idle. Ready to scan.");
+                    Log.d(TAG, "Scanner is idle and ready.");
                     startScanning();
                     break;
                 case WAITING:
@@ -168,7 +167,7 @@ public class ScannerController implements EMDKManager.EMDKListener, Scanner.Data
                     Log.d(TAG, "Scanner is scanning.");
                     break;
                 case DISABLED:
-                    Log.d(TAG, "Scanner is disabled.");
+                    Log.e(TAG, "Scanner is disabled.");
                     break;
                 case ERROR:
                     Log.e(TAG, "Scanner error: " + statusData.getState().name());

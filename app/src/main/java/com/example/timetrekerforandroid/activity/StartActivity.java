@@ -1,5 +1,7 @@
 package com.example.timetrekerforandroid.activity;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.timetrekerforandroid.fragment.navigation.TasksFragment;
 import com.example.timetrekerforandroid.fragment.wps.Wps1Fragment;
 import com.example.timetrekerforandroid.fragment.wps.Wps2Fragment;
 import com.example.timetrekerforandroid.util.SPHelper;
+import com.example.timetrekerforandroid.util.ScannerBroadcastReceiver;
 import com.example.timetrekerforandroid.util.ScannerController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,10 +33,14 @@ public class StartActivity extends BaseActivity implements ScannerController.Sca
 
     private ScannerController scannerController;
     private BottomNavigationView bottomNavigationView;
+    private ScannerBroadcastReceiver scannerReceiver;
+
 
     @Override
     protected void initViews(@Nullable Bundle saveInstanceState) {
         scannerController = new ScannerController(this, this);
+
+        scannerReceiver = new ScannerBroadcastReceiver();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         setupBottomNavigation();
@@ -139,10 +146,16 @@ public class StartActivity extends BaseActivity implements ScannerController.Sca
     @Override
     protected void onResume() {
         super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.example.ACTION");
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(scannerReceiver, filter);
+        Log.d("ScannerBroadcastReceiver", "Receiver registered");
         if (scannerController != null) {
             scannerController.resumeScanner();
             Log.d("StartActivity", "Scanner resumed");
         }
+
     }
 
     @Override

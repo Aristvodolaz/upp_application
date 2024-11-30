@@ -31,8 +31,10 @@ class AddInformationPresenter(private var view: AddInformationView) {
             }
 
             override fun onNext(response: FinishedResponse) {
-                if(response!=null && response.isSuccess)
+                if(response.isSuccess) {
+                    Log.d("RESULT", response.toString())
                     view.msgSuccess("Данные успешно записаны")
+                }
                 else view.msgError("Ошибка записи данных, повторите попытку")
             }
 
